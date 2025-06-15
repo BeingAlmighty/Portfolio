@@ -1,0 +1,157 @@
+Great — here's how to make the layout horizontal, with each card containing an inner project card. We'll structure it like this:
+
+A horizontal row of cards (flex-direction: row)
+
+Each card contains a mini project preview (could include image, title, description, button)
+
+✅ Final Output:
+A horizontally scrolling or responsive row of service/project cards, each with hover effects like scale + blur on siblings.
+
+🔹 ProjectCards.jsx (React Component)
+jsx
+Copy
+Edit
+import React from 'react';
+import './ProjectCards.css';
+
+const ProjectCards = () => {
+  const projects = [
+    {
+      color: 'red',
+      title: 'AI Chatbot',
+      desc: 'Built using GPT-4 and React.',
+      img: 'https://source.unsplash.com/300x200/?ai,chatbot',
+    },
+    {
+      color: 'blue',
+      title: 'Food Ordering App',
+      desc: 'React Native + Firebase stack.',
+      img: 'https://source.unsplash.com/300x200/?food,app',
+    },
+    {
+      color: 'green',
+      title: 'Portfolio Website',
+      desc: 'Personal brand using Next.js.',
+      img: 'https://source.unsplash.com/300x200/?developer,portfolio',
+    },
+    {
+      color: 'yellow',
+      title: 'Task Manager',
+      desc: 'Task assignment + leaderboard.',
+      img: 'https://source.unsplash.com/300x200/?tasks,planner',
+    },
+  ];
+
+  return (
+    <div className="cards">
+      {projects.map((proj, index) => (
+        <div className={`card ${proj.color}`} key={index}>
+          <div className="project">
+            <img src={proj.img} alt={proj.title} />
+            <h3>{proj.title}</h3>
+            <p>{proj.desc}</p>
+            <button>View Project</button>
+          </div>
+        </div>
+      ))}
+    </div>
+  );
+};
+
+export default ProjectCards;
+🔹 ProjectCards.css
+css
+Copy
+Edit
+.cards {
+  display: flex;
+  flex-direction: row;
+  gap: 20px;
+  padding: 20px;
+  overflow-x: auto;
+}
+
+.card {
+  flex: 0 0 280px;
+  height: 360px;
+  border-radius: 15px;
+  color: white;
+  cursor: pointer;
+  transition: 400ms ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.card.red {
+  background-color: #f43f5e;
+}
+.card.blue {
+  background-color: #3b82f6;
+}
+.card.green {
+  background-color: #22c55e;
+}
+.card.yellow {
+  background-color: #facc15;
+  color: #111;
+}
+
+.card:hover {
+  transform: scale(1.08);
+}
+
+.cards:hover > .card:not(:hover) {
+  filter: blur(4px);
+  transform: scale(0.9);
+}
+
+.project {
+  text-align: center;
+  padding: 10px;
+}
+
+.project img {
+  width: 100%;
+  height: 150px;
+  object-fit: cover;
+  border-radius: 10px;
+  margin-bottom: 10px;
+}
+
+.project h3 {
+  font-size: 1.1rem;
+  margin-bottom: 6px;
+}
+
+.project p {
+  font-size: 0.85rem;
+  margin-bottom: 10px;
+}
+
+.project button {
+  background-color: white;
+  color: #111;
+  padding: 6px 12px;
+  font-size: 0.8rem;
+  border-radius: 5px;
+  border: none;
+  cursor: pointer;
+  transition: 0.3s ease;
+}
+
+.project button:hover {
+  background-color: #111;
+  color: white;
+}
+🧠 Summary of What This Does:
+Horizontal scroll/flex layout
+
+Each .card shows a project thumbnail
+
+Hover on one zooms in the card and blurs others
+
+Cards are color-coded for visual diversity
+
+Inner project section includes: image, title, desc, and a button
+

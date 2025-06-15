@@ -11,7 +11,6 @@ export default function Hero() {
       id="home"
     >
       <CenterImage />
-      <FixedHeroContent />
       <ParallaxImages />
       <div className="absolute bottom-0 left-0 right-0 h-96 bg-gradient-to-b from-black/0 to-black" />
     </div>
@@ -21,15 +20,21 @@ export default function Hero() {
 const CenterImage = () => {
   const { scrollY } = useScroll();
 
-  const clip1 = useTransform(scrollY, [0, SECTION_HEIGHT], [25, 0]);
-  const clip2 = useTransform(scrollY, [0, SECTION_HEIGHT], [75, 100]);
+  const clip1 = useTransform(scrollY, [0, 1500], [25, 0]);
+  const clip2 = useTransform(scrollY, [0, 1500], [75, 100]);
 
   const clipPath = useMotionTemplate`polygon(${clip1}% ${clip1}%, ${clip2}% ${clip1}%, ${clip2}% ${clip2}%, ${clip1}% ${clip2}%)`;
 
   const backgroundSize = useTransform(
     scrollY,
-    [0, SECTION_HEIGHT],
+    [0, SECTION_HEIGHT + 500],
     ["170%", "100%"]
+  );
+  
+  const opacity = useTransform(
+    scrollY,
+    [SECTION_HEIGHT, SECTION_HEIGHT + 500],
+    [1, 0]
   );
 
   return (
@@ -38,49 +43,41 @@ const CenterImage = () => {
       style={{
         clipPath,
         backgroundSize,
+        opacity,
         backgroundImage: "url('https://images.unsplash.com/photo-1451187580459-43490279c0fa?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&h=1080')",
         backgroundPosition: "center",
         backgroundRepeat: "no-repeat",
       }}
-    />
-  );
-};
-
-const FixedHeroContent = () => {
-  const { scrollY } = useScroll();
-  
-  // Keep content visible until parallax images start appearing
-  const opacity = useTransform(scrollY, [0, 800, 1000], [1, 1, 0]);
-
-  return (
-    <motion.div 
-      className="sticky top-0 h-screen w-full flex items-center justify-center pointer-events-none z-20"
-      style={{ opacity }}
     >
-      <motion.div 
-        className="text-center text-white z-10 px-4 pointer-events-auto"
-        initial={{ opacity: 0, y: 30 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 1, delay: 0.5 }}
-      >
-        <h1 className="text-5xl md:text-7xl font-bold mb-6 leading-tight">
-          Digital <span className="text-[#ff5722]">Innovation</span>
-        </h1>
-        <p className="text-xl md:text-2xl mb-8 max-w-2xl mx-auto leading-relaxed">
-          We craft stunning digital experiences that drive growth and inspire action
-        </p>
-        <button 
-          onClick={() => {
-            document.getElementById("services")?.scrollIntoView({
-              behavior: "smooth",
-            });
-          }}
-          className="bg-[#ff5722] hover:bg-[#e64a19] text-white px-8 py-4 rounded-full font-semibold transition-all duration-300 transform hover:scale-105"
+      {/* Fixed Hero Content - stays centered while background expands */}
+      <div className="absolute inset-0 flex items-center justify-center z-10">
+        <motion.div 
+          className="text-center text-white px-4"
+          initial={{ opacity: 0, y: 30 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 1, delay: 0.5 }}
         >
-          Start Your Project
-        </button>
-      </motion.div>
-      <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2 animate-bounce">
+          <h1 className="text-5xl md:text-7xl font-bold mb-6 leading-tight">
+            Digital <span className="text-[#ff5722]">Innovation</span>
+          </h1>
+          <p className="text-xl md:text-2xl mb-8 max-w-2xl mx-auto leading-relaxed">
+            We craft stunning digital experiences that drive growth and inspire action
+          </p>
+          <button 
+            onClick={() => {
+              document.getElementById("services")?.scrollIntoView({
+                behavior: "smooth",
+              });
+            }}
+            className="bg-[#ff5722] hover:bg-[#e64a19] text-white px-8 py-4 rounded-full font-semibold transition-all duration-300 transform hover:scale-105"
+          >
+            Start Your Project
+          </button>
+        </motion.div>
+      </div>
+      
+      {/* Scroll indicator */}
+      <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2 animate-bounce z-10">
         <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 14l-7 7m0 0l-7-7m7 7V3" />
         </svg>

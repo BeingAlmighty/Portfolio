@@ -3,17 +3,29 @@ import { motion } from 'framer-motion';
 export default function Projects() {
   const projects = [
     {
-      title: 'E-Commerce Platform',
-      description: 'Modern online store with seamless user experience',
-      image: 'https://images.unsplash.com/photo-1563013544-824ae1b704d3?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&h=600',
-      tags: ['React', 'Node.js']
+      color: 'red',
+      title: 'AI Chatbot',
+      description: 'Built using GPT-4 and React.',
+      image: 'https://images.unsplash.com/photo-1677442136019-21780ecad995?ixlib=rb-4.0.3&auto=format&fit=crop&w=300&h=200',
     },
     {
-      title: 'Corporate Website',
-      description: 'Professional business presence with modern design',
-      image: 'https://images.unsplash.com/photo-1460925895917-afdab827c52f?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&h=600',
-      tags: ['Next.js', 'CMS']
-    }
+      color: 'blue',
+      title: 'Food Ordering App',
+      description: 'React Native + Firebase stack.',
+      image: 'https://images.unsplash.com/photo-1565299624946-b28f40a0ca4b?ixlib=rb-4.0.3&auto=format&fit=crop&w=300&h=200',
+    },
+    {
+      color: 'green',
+      title: 'Portfolio Website',
+      description: 'Personal brand using Next.js.',
+      image: 'https://images.unsplash.com/photo-1467232004584-a241de8bcf5d?ixlib=rb-4.0.3&auto=format&fit=crop&w=300&h=200',
+    },
+    {
+      color: 'yellow',
+      title: 'Task Manager',
+      description: 'Task assignment + leaderboard.',
+      image: 'https://images.unsplash.com/photo-1611224923853-80b023f02d71?ixlib=rb-4.0.3&auto=format&fit=crop&w=300&h=200',
+    },
   ];
 
   return (
@@ -38,35 +50,20 @@ export default function Projects() {
           </motion.p>
         </div>
         
-        <div className="grid md:grid-cols-2 gap-8">
+        <div className="project-cards">
           {projects.map((project, i) => (
             <motion.div
               key={i}
-              initial={{ opacity: 0, y: 50 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: i * 0.2 }}
-              className="project-card group cursor-pointer"
+              initial={{ opacity: 0, x: 50 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.6, delay: i * 0.1 }}
+              className={`project-card ${project.color}`}
             >
-              <div className="relative overflow-hidden rounded-xl bg-black border border-white/10 group-hover:border-[#ff5722]/50 transition-all duration-300">
-                <img 
-                  src={project.image} 
-                  alt={project.title}
-                  className="w-full h-64 object-cover transition-transform duration-500" 
-                />
-                <div className="p-6">
-                  <h3 className="text-xl font-bold mb-2">{project.title}</h3>
-                  <p className="text-gray-300 mb-4">{project.description}</p>
-                  <div className="flex gap-2">
-                    {project.tags.map((tag, index) => (
-                      <span 
-                        key={index}
-                        className="bg-[#ff5722]/20 text-[#ff5722] px-3 py-1 rounded-full text-sm"
-                      >
-                        {tag}
-                      </span>
-                    ))}
-                  </div>
-                </div>
+              <div className="project-content">
+                <img src={project.image} alt={project.title} />
+                <h3>{project.title}</h3>
+                <p>{project.description}</p>
+                <button>View Project</button>
               </div>
             </motion.div>
           ))}

@@ -11,6 +11,7 @@ export default function Hero() {
       id="home"
     >
       <CenterImage />
+      <FixedHeroContent />
       <ParallaxImages />
       <div className="absolute bottom-0 left-0 right-0 h-96 bg-gradient-to-b from-black/0 to-black" />
     </div>
@@ -20,36 +21,44 @@ export default function Hero() {
 const CenterImage = () => {
   const { scrollY } = useScroll();
 
-  const clip1 = useTransform(scrollY, [0, 1500], [25, 0]);
-  const clip2 = useTransform(scrollY, [0, 1500], [75, 100]);
+  const clip1 = useTransform(scrollY, [0, SECTION_HEIGHT], [25, 0]);
+  const clip2 = useTransform(scrollY, [0, SECTION_HEIGHT], [75, 100]);
 
   const clipPath = useMotionTemplate`polygon(${clip1}% ${clip1}%, ${clip2}% ${clip1}%, ${clip2}% ${clip2}%, ${clip1}% ${clip2}%)`;
 
   const backgroundSize = useTransform(
     scrollY,
-    [0, SECTION_HEIGHT + 500],
+    [0, SECTION_HEIGHT],
     ["170%", "100%"]
-  );
-  const opacity = useTransform(
-    scrollY,
-    [SECTION_HEIGHT, SECTION_HEIGHT + 500],
-    [1, 0]
   );
 
   return (
     <motion.div
-      className="sticky top-0 h-screen w-full flex items-center justify-center"
+      className="sticky top-0 h-screen w-full"
       style={{
         clipPath,
         backgroundSize,
-        opacity,
         backgroundImage: "url('https://images.unsplash.com/photo-1451187580459-43490279c0fa?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&h=1080')",
         backgroundPosition: "center",
         backgroundRepeat: "no-repeat",
       }}
+    />
+  );
+};
+
+const FixedHeroContent = () => {
+  const { scrollY } = useScroll();
+  
+  // Keep content visible until parallax images start appearing
+  const opacity = useTransform(scrollY, [0, 800, 1000], [1, 1, 0]);
+
+  return (
+    <motion.div 
+      className="sticky top-0 h-screen w-full flex items-center justify-center pointer-events-none z-20"
+      style={{ opacity }}
     >
       <motion.div 
-        className="text-center text-white z-10 px-4"
+        className="text-center text-white z-10 px-4 pointer-events-auto"
         initial={{ opacity: 0, y: 30 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 1, delay: 0.5 }}

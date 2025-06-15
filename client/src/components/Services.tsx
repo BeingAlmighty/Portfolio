@@ -54,29 +54,34 @@ export default function Services() {
               initial={{ opacity: 0, y: 50 }}
               whileInView={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: i * 0.2 }}
-              className="perspective w-full h-80"
+              className="book-container"
             >
-              <div className="w-full h-full service-card transform-style-3d relative cursor-pointer">
-                {/* Front of card */}
-                <div className="absolute inset-0 backface-hidden bg-[#1e1e1e] border border-white/10 rounded-xl p-8 flex flex-col justify-center items-center text-center">
-                  <div className="bg-[#ff5722]/20 p-4 rounded-full mb-6 text-4xl">
+              <div className="book">
+                {/* Back content (visible when cover opens) */}
+                <div className="book-content">
+                  <div className="bg-[#ff5722]/20 p-3 rounded-full mb-4 text-3xl inline-block">
                     {service.icon}
                   </div>
-                  <h3 className="text-2xl font-bold mb-4">{service.title}</h3>
-                  <p className="text-gray-300">{service.description}</p>
-                </div>
-                
-                {/* Back of card */}
-                <div className="absolute inset-0 rotate-y-180 backface-hidden bg-[#ff5722] rounded-xl p-8 flex flex-col justify-center items-center text-center text-white">
-                  <h4 className="text-xl font-bold mb-4">{service.backTitle}</h4>
-                  <ul className="space-y-2 text-sm mb-6">
+                  <h4 className="text-lg font-bold mb-3 text-[#ff5722]">{service.backTitle}</h4>
+                  <ul className="space-y-2 text-sm mb-4">
                     {service.backContent.map((item, index) => (
-                      <li key={index}>{item}</li>
+                      <li key={index} className="text-gray-800">• {item}</li>
                     ))}
                   </ul>
-                  <button className="bg-white text-[#ff5722] px-6 py-2 rounded-full font-semibold hover:bg-gray-100 transition-colors">
+                  <button className="bg-[#ff5722] text-white px-4 py-2 rounded-lg text-sm font-semibold hover:bg-[#e64a19] transition-colors">
                     Learn More
                   </button>
+                </div>
+                
+                {/* Cover (front) */}
+                <div className="cover">
+                  <div className="cover-content">
+                    <div className="bg-[#ff5722]/20 p-4 rounded-full mb-4 text-4xl">
+                      {service.icon}
+                    </div>
+                    <h3 className="text-xl font-bold mb-3 text-white">{service.title}</h3>
+                    <p className="text-gray-300 text-sm leading-relaxed">{service.description}</p>
+                  </div>
                 </div>
               </div>
             </motion.div>

@@ -59,12 +59,7 @@ export default function Projects() {
               transition={{ duration: 0.6, delay: i * 0.1 }}
               className={`project-card ${project.color}`}
             >
-              <div className="project-content">
-                <img src={project.image} alt={project.title} />
-                <h3>{project.title}</h3>
-                <p>{project.description}</p>
-                <button>View Project</button>
-              </div>
+              {project.title}
             </motion.div>
           ))}
         </div>

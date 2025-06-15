@@ -187,96 +187,79 @@
 }
 
 .project-card {
-  height: 360px;
+  position: relative;
   width: 280px;
-  border-radius: 15px;
-  color: white;
-  cursor: pointer;
-  transition: 400ms;
+  height: 360px;
   display: flex;
   align-items: center;
   justify-content: center;
-  position: relative;
-  overflow: hidden;
+  font-size: 25px;
+  font-weight: bold;
+  border-radius: 15px;
+  cursor: pointer;
+  color: white;
 }
 
 .project-card.red {
-  background-color: #f43f5e;
+  background: #f43f5e;
 }
 
 .project-card.blue {
-  background-color: #3b82f6;
+  background: #3b82f6;
 }
 
 .project-card.green {
-  background-color: #22c55e;
+  background: #22c55e;
 }
 
 .project-card.yellow {
-  background-color: #facc15;
+  background: #facc15;
   color: #111;
 }
 
-.project-card:hover {
-  transform: scale(1.1, 1.1);
-}
-
-.project-cards:hover > .project-card:not(:hover) {
-  filter: blur(10px);
-  transform: scale(0.9, 0.9);
-}
-
-.project-content {
-  text-align: center;
-  padding: 20px;
-  width: 100%;
-}
-
-.project-content img {
-  width: 100%;
-  height: 150px;
-  object-fit: cover;
-  border-radius: 10px;
-  margin-bottom: 15px;
-  transition: transform 0.3s ease;
-}
-
-.project-card:hover .project-content img {
-  transform: scale(1.05);
-}
-
-.project-content h3 {
-  font-size: 1.2rem;
-  margin-bottom: 8px;
+.project-card::before,
+.project-card::after {
+  position: absolute;
+  content: "";
+  width: 20%;
+  height: 20%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 25px;
   font-weight: bold;
+  background-color: rgba(255, 255, 255, 0.2);
+  transition: all 0.5s;
 }
 
-.project-content p {
-  font-size: 0.9rem;
-  margin-bottom: 15px;
-  opacity: 0.9;
-  line-height: 1.4;
+.project-card::before {
+  top: 0;
+  right: 0;
+  border-radius: 0 15px 0 100%;
 }
 
-.project-content button {
-  background-color: white;
-  color: #111;
-  padding: 8px 16px;
-  font-size: 0.85rem;
-  border-radius: 6px;
-  border: none;
-  cursor: pointer;
-  transition: all 0.3s ease;
-  font-weight: 600;
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
+.project-card::after {
+  bottom: 0;
+  left: 0;
+  border-radius: 0 100% 0 15px;
 }
 
-.project-content button:hover {
-  background-color: #111;
+.project-card:hover::before,
+.project-card:hover::after {
+  width: 100%;
+  height: 100%;
+  border-radius: 15px;
+  transition: all 0.5s;
+}
+
+.project-card:hover::after {
+  content: "VIEW";
+  background-color: rgba(0, 0, 0, 0.8);
   color: white;
-  transform: translateY(-2px);
+  font-size: 2rem;
 }
+
+
 
 /* Responsive design for project cards */
 @media (max-width: 1024px) {

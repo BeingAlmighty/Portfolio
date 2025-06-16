@@ -1,5 +1,5 @@
-import { motion, useTransform, useScroll } from "framer-motion";
-import { useRef } from "react";
+import { motion, useTransform, useScroll, useMotionValueEvent } from "framer-motion";
+import { useRef, useEffect, useState } from "react";
 
 const caseStudies = [
   {
@@ -104,12 +104,34 @@ const caseStudies = [
 
 const HorizontalScrollCarousel = ({ caseStudy }: { caseStudy: typeof caseStudies[0] }) => {
   const targetRef = useRef<HTMLElement>(null);
+  const [isScrollingHorizontally, setIsScrollingHorizontally] = useState(false);
+  
   const { scrollYProgress } = useScroll({
     target: targetRef,
   });
 
   const allCards = [caseStudy.heroCard, ...caseStudy.cards];
   const x = useTransform(scrollYProgress, [0, 1], ["1%", "-95%"]);
+
+  // Monitor horizontal scroll progress
+  useMotionValueEvent(scrollYProgress, "change", (latest) => {
+    // Consider horizontal scrolling active when progress is between 0.1 and 0.9
+    const isHorizontalActive = latest > 0.1 && latest < 0.9;
+    setIsScrollingHorizontally(isHorizontalActive);
+  });
+
+  // Prevent body scroll when horizontally scrolling
+  useEffect(() => {
+    if (isScrollingHorizontally) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = 'unset';
+    }
+    
+    return () => {
+      document.body.style.overflow = 'unset';
+    };
+  }, [isScrollingHorizontally]);
 
   return (
     <section ref={targetRef} className="relative h-[300vh] bg-[#1a1a1a]">
@@ -162,6 +184,7 @@ const Card = ({ card }: { card: any }) => {
 export default function CaseStudies() {
   return (
     <div id="case-studies" className="bg-[#1e1e1e]">
+      {/* Header Section */}
       <div className="py-20 bg-[#1e1e1e]">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <motion.div 
@@ -181,20 +204,29 @@ export default function CaseStudies() {
         </div>
       </div>
       
+      {/* Scroll Indicator */}
+      <div className="flex h-48 items-center justify-center bg-[#1e1e1e]">
+        <span className="font-semibold uppercase text-gray-500">
+          Scroll down to explore
+        </span>
+      </div>
+      
+      {/* Case Studies with Proper Scroll Control */}
       {caseStudies.map((caseStudy, index) => (
         <div key={caseStudy.id}>
           <HorizontalScrollCarousel caseStudy={caseStudy} />
           {index < caseStudies.length - 1 && (
-            <div className="h-48 bg-[#1e1e1e] flex items-center justify-center">
+            <div className="flex h-48 items-center justify-center bg-[#1e1e1e]">
               <span className="font-semibold uppercase text-gray-500">
-                Scroll for next case study
+                Continue scrolling for next case study
               </span>
             </div>
           )}
         </div>
       ))}
       
-      <div className="h-48 bg-[#1e1e1e] flex items-center justify-center">
+      {/* End Section */}
+      <div className="flex h-48 items-center justify-center bg-[#1e1e1e]">
         <span className="font-semibold uppercase text-gray-500">
           End of case studies
         </span>

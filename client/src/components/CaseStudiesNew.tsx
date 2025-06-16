@@ -104,83 +104,28 @@ const caseStudies = [
 
 const HorizontalScrollCarousel = ({ cards }: { cards: any[] }) => {
   const targetRef = useRef(null);
-  const [isScrollingHorizontally, setIsScrollingHorizontally] = useState(false);
-  
   const { scrollYProgress } = useScroll({
     target: targetRef,
   });
 
   const totalCards = cards.length;
   
-  // Dynamic height calculation: 100vh per card for enough scroll space
-  const dynamicHeight = `${100 * totalCards}vh`;
+  // Dynamic height: each card needs sufficient scroll space
+  const cardScrollSpace = 100; // vh per card
+  const scrollHeight = totalCards * cardScrollSpace;
   
-  // Smooth translation: start at 0%, end at -(totalCards-1)*100%
-  const x = useTransform(scrollYProgress, [0, 1], ["0%", `-${(totalCards - 1) * 100}%`]);
-
-  // Monitor scroll progress to determine if horizontal scrolling is active
-  useMotionValueEvent(scrollYProgress, "change", (latest) => {
-    // Consider horizontal scrolling active when progress is between 0.05 and 0.95
-    const isHorizontalActive = latest > 0.05 && latest < 0.95;
-    setIsScrollingHorizontally(isHorizontalActive);
-  });
-
-  // Prevent vertical scroll during horizontal scrolling
-  useEffect(() => {
-    const handleWheel = (e: WheelEvent) => {
-      if (isScrollingHorizontally) {
-        const targetElement = targetRef.current as HTMLElement | null;
-        if (targetElement) {
-          const rect = targetElement.getBoundingClientRect();
-          const isWithinTarget = e.clientY >= rect.top && e.clientY <= rect.bottom;
-          
-          if (isWithinTarget) {
-            // Allow natural scroll behavior within the target section only
-            return;
-          } else {
-            // Prevent scroll outside the target section
-            e.preventDefault();
-          }
-        }
-      }
-    };
-
-    const handleTouchMove = (e: TouchEvent) => {
-      if (isScrollingHorizontally) {
-        const targetElement = targetRef.current as HTMLElement | null;
-        if (targetElement) {
-          const rect = targetElement.getBoundingClientRect();
-          const touch = e.touches[0];
-          const isWithinTarget = touch.clientY >= rect.top && touch.clientY <= rect.bottom;
-          
-          if (isWithinTarget) {
-            return;
-          } else {
-            e.preventDefault();
-          }
-        }
-      }
-    };
-
-    if (isScrollingHorizontally) {
-      document.addEventListener('wheel', handleWheel, { passive: false });
-      document.addEventListener('touchmove', handleTouchMove, { passive: false });
-    }
-
-    return () => {
-      document.removeEventListener('wheel', handleWheel);
-      document.removeEventListener('touchmove', handleTouchMove);
-    };
-  }, [isScrollingHorizontally]);
+  // Horizontal transform: start at 0%, move to show all cards
+  const maxTranslate = (totalCards - 1) * 80; // 80% per card for proper spacing
+  const x = useTransform(scrollYProgress, [0, 1], ["0%", `-${maxTranslate}%`]);
 
   return (
     <section
       ref={targetRef}
       className="relative bg-[#1a1a1a]"
-      style={{ height: dynamicHeight }}
+      style={{ height: `${scrollHeight}vh` }}
     >
-      <div className="sticky top-0 flex h-screen items-center overflow-hidden px-8">
-        <motion.div style={{ x }} className="flex gap-4 min-w-max">
+      <div className="sticky top-0 flex h-screen items-center overflow-hidden">
+        <motion.div style={{ x }} className="flex gap-6 pl-8">
           {cards.map((card) => {
             return <Card card={card} key={card.id} />;
           })}
@@ -248,32 +193,11 @@ export default function CaseStudiesNew() {
         </div>
       </div>
 
-      {/* Scroll indicator */}
-      <div className="flex h-48 items-center justify-center">
-        <span className="font-semibold uppercase text-gray-500">
-          Scroll down
-        </span>
-      </div>
-
       {/* Case Study 1 */}
       <HorizontalScrollCarousel cards={[caseStudies[0].heroCard, ...caseStudies[0].cards]} />
-      
-      {/* Separator */}
-      <div className="flex h-48 items-center justify-center">
-        <span className="font-semibold uppercase text-gray-500">
-          Continue scrolling
-        </span>
-      </div>
 
       {/* Case Study 2 */}
       <HorizontalScrollCarousel cards={[caseStudies[1].heroCard, ...caseStudies[1].cards]} />
-
-      {/* End */}
-      <div className="flex h-48 items-center justify-center">
-        <span className="font-semibold uppercase text-gray-500">
-          End of case studies
-        </span>
-      </div>
     </div>
   );
 }

@@ -198,6 +198,27 @@
     inset 0 0 0 1px rgba(255, 255, 255, 0.1);
 }
 
+/* Rectangle shaped project cards - 2 per row */
+.project-card-rect {
+  width: 100%;
+  max-width: 450px;
+  height: 280px;
+}
+
+@media (min-width: 1024px) {
+  .project-card-rect {
+    max-width: 500px;
+    height: 320px;
+  }
+}
+
+@media (min-width: 1280px) {
+  .project-card-rect {
+    max-width: 550px;
+    height: 350px;
+  }
+}
+
 .animated-card:hover {
   transform: translateY(-12px) scale(1.03);
   box-shadow: 

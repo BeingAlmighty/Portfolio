@@ -50,14 +50,14 @@ export default function Projects() {
           </motion.p>
         </div>
         
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 xl:grid-cols-4 gap-6 lg:gap-8">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 justify-items-center">
           {projects.map((project, i) => (
             <motion.div
               key={i}
               initial={{ opacity: 0, y: 50 }}
               whileInView={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: i * 0.1 }}
-              className="animated-card"
+              className="animated-card project-card-rect"
               style={{ backgroundImage: `url(${project.image})` }}
             >
               <div className="card-glow"></div>
@@ -66,7 +66,7 @@ export default function Projects() {
                 <p className="project-subtitle">{project.subtitle}</p>
                 <h3 className="project-title">{project.title}</h3>
                 <button className="view-button">
-                  View Project
+                  View
                   <div className="icon">
                     <svg viewBox="0 0 24 24" fill="currentColor">
                       <path d="M13.025 1l-2.847 2.828 6.176 6.176h-16.354v3.992h16.354l-6.176 6.176 2.847 2.828 10.975-11z"/>

@@ -3,34 +3,34 @@ import { motion } from 'framer-motion';
 export default function Projects() {
   const projects = [
     {
-      color: 'red',
-      title: 'AI Chatbot',
-      description: 'Built using GPT-4 and React.',
-      image: 'https://images.unsplash.com/photo-1677442136019-21780ecad995?ixlib=rb-4.0.3&auto=format&fit=crop&w=300&h=200',
+      title: 'E-Commerce Platform',
+      subtitle: 'Web Development',
+      image: 'https://images.unsplash.com/photo-1555066931-4365d14bab8c?w=500&h=500&fit=crop&crop=center',
+      description: 'Modern shopping experience with React and Node.js'
     },
     {
-      color: 'blue',
-      title: 'Food Ordering App',
-      description: 'React Native + Firebase stack.',
-      image: 'https://images.unsplash.com/photo-1565299624946-b28f40a0ca4b?ixlib=rb-4.0.3&auto=format&fit=crop&w=300&h=200',
+      title: 'Mobile Banking App',
+      subtitle: 'Mobile Development',
+      image: 'https://images.unsplash.com/photo-1563013544-824ae1b704d3?w=500&h=500&fit=crop&crop=center',
+      description: 'Secure financial app with React Native'
     },
     {
-      color: 'green',
-      title: 'Portfolio Website',
-      description: 'Personal brand using Next.js.',
-      image: 'https://images.unsplash.com/photo-1467232004584-a241de8bcf5d?ixlib=rb-4.0.3&auto=format&fit=crop&w=300&h=200',
+      title: 'AI Analytics Dashboard',
+      subtitle: 'Data Visualization',
+      image: 'https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=500&h=500&fit=crop&crop=center',
+      description: 'Real-time insights with machine learning'
     },
     {
-      color: 'yellow',
-      title: 'Task Manager',
-      description: 'Task assignment + leaderboard.',
-      image: 'https://images.unsplash.com/photo-1611224923853-80b023f02d71?ixlib=rb-4.0.3&auto=format&fit=crop&w=300&h=200',
-    },
+      title: 'Healthcare Portal',
+      subtitle: 'Healthcare Tech',
+      image: 'https://images.unsplash.com/photo-1576091160399-112ba8d25d1f?w=500&h=500&fit=crop&crop=center',
+      description: 'Patient management system with telemedicine'
+    }
   ];
 
   return (
     <section id="projects" className="py-12 sm:py-16 md:py-20 bg-[#1e1e1e]">
-      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center mb-12 sm:mb-16">
           <motion.h2 
             initial={{ opacity: 0, y: 30 }}
@@ -50,18 +50,30 @@ export default function Projects() {
           </motion.p>
         </div>
         
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 sm:gap-8 lg:gap-6 xl:gap-8">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 xl:grid-cols-4 gap-6 lg:gap-8">
           {projects.map((project, i) => (
             <motion.div
               key={i}
               initial={{ opacity: 0, y: 50 }}
               whileInView={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: i * 0.1 }}
-              className={`project-card ${project.color} w-full h-80 sm:h-96`}
+              className="animated-card"
+              style={{ backgroundImage: `url(${project.image})` }}
             >
-              <span className="text-lg sm:text-xl lg:text-2xl font-bold px-4 text-center">
-                {project.title}
-              </span>
+              <div className="card-glow"></div>
+              <div className="card-corner-bottom"></div>
+              <div className="hover-content">
+                <p className="project-subtitle">{project.subtitle}</p>
+                <h3 className="project-title">{project.title}</h3>
+                <button className="view-button">
+                  View Project
+                  <div className="icon">
+                    <svg viewBox="0 0 24 24" fill="currentColor">
+                      <path d="M13.025 1l-2.847 2.828 6.176 6.176h-16.354v3.992h16.354l-6.176 6.176 2.847 2.828 10.975-11z"/>
+                    </svg>
+                  </div>
+                </button>
+              </div>
             </motion.div>
           ))}
         </div>

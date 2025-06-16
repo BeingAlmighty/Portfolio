@@ -35,6 +35,7 @@ export default function Projects() {
           <motion.h2 
             initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
             transition={{ duration: 0.6 }}
             className="text-3xl sm:text-4xl md:text-5xl font-bold mb-4"
           >
@@ -43,6 +44,7 @@ export default function Projects() {
           <motion.p 
             initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
             transition={{ duration: 0.6, delay: 0.2 }}
             className="text-base sm:text-lg text-gray-300 max-w-2xl mx-auto px-4"
           >
@@ -56,6 +58,7 @@ export default function Projects() {
               key={i}
               initial={{ opacity: 0, y: 50 }}
               whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
               transition={{ duration: 0.6, delay: i * 0.1 }}
               className="animated-card project-card-rect"
               style={{ backgroundImage: `url(${project.image})` }}

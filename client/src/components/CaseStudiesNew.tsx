@@ -1,5 +1,5 @@
-import { motion, useTransform, useScroll, useMotionValueEvent } from "framer-motion";
-import { useRef, useEffect, useState, useCallback } from "react";
+import { motion, useTransform, useScroll } from "framer-motion";
+import { useRef } from "react";
 
 const caseStudies = [
   {
@@ -102,20 +102,19 @@ const caseStudies = [
   }
 ];
 
-const HorizontalScrollCarousel = ({ caseStudy }: { caseStudy: typeof caseStudies[0] }) => {
-  const targetRef = useRef<HTMLElement>(null);
+const HorizontalScrollCarousel = ({ cards }: { cards: any[] }) => {
+  const targetRef = useRef(null);
   const { scrollYProgress } = useScroll({
     target: targetRef,
   });
 
-  const allCards = [caseStudy.heroCard, ...caseStudy.cards];
   const x = useTransform(scrollYProgress, [0, 1], ["1%", "-95%"]);
 
   return (
     <section ref={targetRef} className="relative h-[300vh] bg-[#1a1a1a]">
       <div className="sticky top-0 flex h-screen items-center overflow-hidden">
         <motion.div style={{ x }} className="flex gap-4">
-          {allCards.map((card) => {
+          {cards.map((card) => {
             return <Card card={card} key={card.id} />;
           })}
         </motion.div>
@@ -159,10 +158,10 @@ const Card = ({ card }: { card: any }) => {
   );
 };
 
-export default function CaseStudies() {
+export default function CaseStudiesNew() {
   return (
-    <div id="case-studies" className="bg-[#1e1e1e]">
-      {/* Header Section */}
+    <div className="bg-[#1e1e1e]">
+      {/* Header */}
       <div className="py-20 bg-[#1e1e1e]">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <motion.div 
@@ -181,30 +180,29 @@ export default function CaseStudies() {
           </motion.div>
         </div>
       </div>
-      
-      {/* Scroll Indicator */}
-      <div className="flex h-48 items-center justify-center bg-[#1e1e1e]">
+
+      {/* Scroll indicator */}
+      <div className="flex h-48 items-center justify-center">
         <span className="font-semibold uppercase text-gray-500">
-          Scroll down to explore
+          Scroll down
         </span>
       </div>
+
+      {/* Case Study 1 */}
+      <HorizontalScrollCarousel cards={[caseStudies[0].heroCard, ...caseStudies[0].cards]} />
       
-      {/* Case Studies with Proper Scroll Control */}
-      {caseStudies.map((caseStudy, index) => (
-        <div key={caseStudy.id}>
-          <HorizontalScrollCarousel caseStudy={caseStudy} />
-          {index < caseStudies.length - 1 && (
-            <div className="flex h-48 items-center justify-center bg-[#1e1e1e]">
-              <span className="font-semibold uppercase text-gray-500">
-                Continue scrolling for next case study
-              </span>
-            </div>
-          )}
-        </div>
-      ))}
-      
-      {/* End Section */}
-      <div className="flex h-48 items-center justify-center bg-[#1e1e1e]">
+      {/* Separator */}
+      <div className="flex h-48 items-center justify-center">
+        <span className="font-semibold uppercase text-gray-500">
+          Continue scrolling
+        </span>
+      </div>
+
+      {/* Case Study 2 */}
+      <HorizontalScrollCarousel cards={[caseStudies[1].heroCard, ...caseStudies[1].cards]} />
+
+      {/* End */}
+      <div className="flex h-48 items-center justify-center">
         <span className="font-semibold uppercase text-gray-500">
           End of case studies
         </span>

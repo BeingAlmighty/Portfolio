@@ -7,7 +7,7 @@ import Navbar from "./components/Navbar";
 import Hero from "./components/Hero";
 import Services from "./components/Services";
 import Projects from "./components/Projects";
-import CaseStudies from "./components/CaseStudies";
+import CaseStudiesNew from "./components/CaseStudiesNew";
 import Contact from "./components/Contact";
 import Footer from "./components/Footer";
 
@@ -28,7 +28,7 @@ function App() {
             <Hero />
             <Services />
             <Projects />
-            <CaseStudies />
+            <CaseStudiesNew />
             <Contact />
             <Footer />
           </ReactLenis>

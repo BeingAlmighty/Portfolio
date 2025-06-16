@@ -4,24 +4,33 @@ export default function Services() {
   const services = [
     {
       title: 'Web Development',
-      description: 'Modern, responsive websites built with cutting-edge technologies',
-      icon: '💻',
-      backTitle: 'Technologies We Use',
-      backContent: ['React & Next.js', 'Node.js & Express', 'Database Integration', 'Cloud Deployment']
-    },
-    {
-      title: 'UI/UX Design',
-      description: 'Beautiful, intuitive interfaces that users love to interact with',
-      icon: '🎨',
-      backTitle: 'Design Process',
-      backContent: ['User Research', 'Wireframing', 'Prototyping', 'Visual Design']
+      subtitle: 'Full-Stack Solutions',
+      image: 'https://images.unsplash.com/photo-1555066931-4365d14bab8c?w=500&h=500&fit=crop&crop=center',
+      description: 'Modern, responsive websites built with cutting-edge technologies'
     },
     {
       title: 'Digital Marketing',
-      description: 'Strategic campaigns that drive traffic and increase conversions',
-      icon: '🚀',
-      backTitle: 'Marketing Services',
-      backContent: ['SEO Optimization', 'Social Media', 'Content Strategy', 'Analytics & Reporting']
+      subtitle: 'Growth Strategy',
+      image: 'https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=500&h=500&fit=crop&crop=center',
+      description: 'Strategic campaigns that drive traffic and increase conversions'
+    },
+    {
+      title: 'Workflow Automation',
+      subtitle: 'Process Optimization',
+      image: 'https://images.unsplash.com/photo-1518186285589-2f7649de83e0?w=500&h=500&fit=crop&crop=center',
+      description: 'Streamline operations with intelligent automation solutions'
+    },
+    {
+      title: 'App Development',
+      subtitle: 'Mobile Solutions',
+      image: 'https://images.unsplash.com/photo-1563013544-824ae1b704d3?w=500&h=500&fit=crop&crop=center',
+      description: 'Native and cross-platform mobile applications'
+    },
+    {
+      title: 'AI Agents',
+      subtitle: 'Intelligent Systems',
+      image: 'https://images.unsplash.com/photo-1677442136019-21780ecad995?w=500&h=500&fit=crop&crop=center',
+      description: 'Custom AI solutions and intelligent automation agents'
     }
   ];
 
@@ -47,42 +56,29 @@ export default function Services() {
           </motion.p>
         </div>
         
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-6 lg:gap-8">
           {services.map((service, i) => (
             <motion.div
               key={i}
               initial={{ opacity: 0, y: 50 }}
               whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: i * 0.2 }}
-              className="book-container w-full flex justify-center"
+              transition={{ duration: 0.6, delay: i * 0.1 }}
+              className="animated-card"
+              style={{ backgroundImage: `url(${service.image})` }}
             >
-              <div className="book w-full max-w-[280px] sm:w-[280px]">
-                {/* Back content (visible when cover opens) */}
-                <div className="book-content">
-                  <div className="bg-[#ff5722]/20 p-2 sm:p-3 rounded-full mb-3 sm:mb-4 text-2xl sm:text-3xl inline-block">
-                    {service.icon}
+              <div className="card-glow"></div>
+              <div className="card-corner-bottom"></div>
+              <div className="hover-content">
+                <p className="project-subtitle">{service.subtitle}</p>
+                <h3 className="project-title">{service.title}</h3>
+                <button className="view-button">
+                  Learn More
+                  <div className="icon">
+                    <svg viewBox="0 0 24 24" fill="currentColor">
+                      <path d="M13.025 1l-2.847 2.828 6.176 6.176h-16.354v3.992h16.354l-6.176 6.176 2.847 2.828 10.975-11z"/>
+                    </svg>
                   </div>
-                  <h4 className="text-base sm:text-lg font-bold mb-2 sm:mb-3 text-[#ff5722]">{service.backTitle}</h4>
-                  <ul className="space-y-1 sm:space-y-2 text-xs sm:text-sm mb-3 sm:mb-4">
-                    {service.backContent.map((item, index) => (
-                      <li key={index} className="text-gray-800">• {item}</li>
-                    ))}
-                  </ul>
-                  <button className="bg-[#ff5722] text-white px-3 sm:px-4 py-1.5 sm:py-2 rounded-lg text-xs sm:text-sm font-semibold hover:bg-[#e64a19] transition-colors">
-                    Learn More
-                  </button>
-                </div>
-                
-                {/* Cover (front) */}
-                <div className="cover">
-                  <div className="cover-content">
-                    <div className="bg-[#ff5722]/20 p-3 sm:p-4 rounded-full mb-3 sm:mb-4 text-3xl sm:text-4xl">
-                      {service.icon}
-                    </div>
-                    <h3 className="text-lg sm:text-xl font-bold mb-2 sm:mb-3 text-white">{service.title}</h3>
-                    <p className="text-gray-300 text-xs sm:text-sm leading-relaxed px-2">{service.description}</p>
-                  </div>
-                </div>
+                </button>
               </div>
             </motion.div>
           ))}

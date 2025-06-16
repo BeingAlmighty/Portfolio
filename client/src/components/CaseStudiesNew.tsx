@@ -1,5 +1,5 @@
-import { motion, useTransform, useScroll } from "framer-motion";
-import { useRef } from "react";
+import { motion, useTransform, useScroll, useMotionValueEvent } from "framer-motion";
+import { useRef, useEffect, useState } from "react";
 
 const caseStudies = [
   {
@@ -104,16 +104,83 @@ const caseStudies = [
 
 const HorizontalScrollCarousel = ({ cards }: { cards: any[] }) => {
   const targetRef = useRef(null);
+  const [isScrollingHorizontally, setIsScrollingHorizontally] = useState(false);
+  
   const { scrollYProgress } = useScroll({
     target: targetRef,
   });
 
-  const x = useTransform(scrollYProgress, [0, 1], ["1%", "-95%"]);
+  const totalCards = cards.length;
+  
+  // Dynamic height calculation: 100vh per card for enough scroll space
+  const dynamicHeight = `${100 * totalCards}vh`;
+  
+  // Smooth translation: start at 0%, end at -(totalCards-1)*100%
+  const x = useTransform(scrollYProgress, [0, 1], ["0%", `-${(totalCards - 1) * 100}%`]);
+
+  // Monitor scroll progress to determine if horizontal scrolling is active
+  useMotionValueEvent(scrollYProgress, "change", (latest) => {
+    // Consider horizontal scrolling active when progress is between 0.05 and 0.95
+    const isHorizontalActive = latest > 0.05 && latest < 0.95;
+    setIsScrollingHorizontally(isHorizontalActive);
+  });
+
+  // Prevent vertical scroll during horizontal scrolling
+  useEffect(() => {
+    const handleWheel = (e: WheelEvent) => {
+      if (isScrollingHorizontally) {
+        const targetElement = targetRef.current as HTMLElement | null;
+        if (targetElement) {
+          const rect = targetElement.getBoundingClientRect();
+          const isWithinTarget = e.clientY >= rect.top && e.clientY <= rect.bottom;
+          
+          if (isWithinTarget) {
+            // Allow natural scroll behavior within the target section only
+            return;
+          } else {
+            // Prevent scroll outside the target section
+            e.preventDefault();
+          }
+        }
+      }
+    };
+
+    const handleTouchMove = (e: TouchEvent) => {
+      if (isScrollingHorizontally) {
+        const targetElement = targetRef.current as HTMLElement | null;
+        if (targetElement) {
+          const rect = targetElement.getBoundingClientRect();
+          const touch = e.touches[0];
+          const isWithinTarget = touch.clientY >= rect.top && touch.clientY <= rect.bottom;
+          
+          if (isWithinTarget) {
+            return;
+          } else {
+            e.preventDefault();
+          }
+        }
+      }
+    };
+
+    if (isScrollingHorizontally) {
+      document.addEventListener('wheel', handleWheel, { passive: false });
+      document.addEventListener('touchmove', handleTouchMove, { passive: false });
+    }
+
+    return () => {
+      document.removeEventListener('wheel', handleWheel);
+      document.removeEventListener('touchmove', handleTouchMove);
+    };
+  }, [isScrollingHorizontally]);
 
   return (
-    <section ref={targetRef} className="relative h-[300vh] bg-[#1a1a1a]">
-      <div className="sticky top-0 flex h-screen items-center overflow-hidden">
-        <motion.div style={{ x }} className="flex gap-4">
+    <section
+      ref={targetRef}
+      className="relative bg-[#1a1a1a]"
+      style={{ height: dynamicHeight }}
+    >
+      <div className="sticky top-0 flex h-screen items-center overflow-hidden px-8">
+        <motion.div style={{ x }} className="flex gap-4 min-w-max">
           {cards.map((card) => {
             return <Card card={card} key={card.id} />;
           })}

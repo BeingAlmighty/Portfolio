@@ -104,34 +104,12 @@ const caseStudies = [
 
 const HorizontalScrollCarousel = ({ caseStudy }: { caseStudy: typeof caseStudies[0] }) => {
   const targetRef = useRef<HTMLElement>(null);
-  const [isScrollingHorizontally, setIsScrollingHorizontally] = useState(false);
-  
   const { scrollYProgress } = useScroll({
     target: targetRef,
   });
 
   const allCards = [caseStudy.heroCard, ...caseStudy.cards];
   const x = useTransform(scrollYProgress, [0, 1], ["1%", "-95%"]);
-
-  // Monitor horizontal scroll progress
-  useMotionValueEvent(scrollYProgress, "change", (latest) => {
-    // Consider horizontal scrolling active when progress is between 0.1 and 0.9
-    const isHorizontalActive = latest > 0.1 && latest < 0.9;
-    setIsScrollingHorizontally(isHorizontalActive);
-  });
-
-  // Prevent body scroll when horizontally scrolling
-  useEffect(() => {
-    if (isScrollingHorizontally) {
-      document.body.style.overflow = 'hidden';
-    } else {
-      document.body.style.overflow = 'unset';
-    }
-    
-    return () => {
-      document.body.style.overflow = 'unset';
-    };
-  }, [isScrollingHorizontally]);
 
   return (
     <section ref={targetRef} className="relative h-[300vh] bg-[#1a1a1a]">

@@ -114,7 +114,7 @@ const HorizontalScrollCarousel = ({ caseStudy }: { caseStudy: typeof caseStudies
   return (
     <section ref={targetRef} className="relative h-[300vh] bg-[#1a1a1a]">
       <div className="sticky top-0 flex h-screen items-center overflow-hidden">
-        <motion.div style={{ x }} className="flex gap-6">
+        <motion.div style={{ x }} className="flex gap-4">
           {allCards.map((card) => {
             return <Card card={card} key={card.id} />;
           })}
@@ -130,8 +130,8 @@ const Card = ({ card }: { card: any }) => {
   return (
     <div
       key={card.id}
-      className={`group relative overflow-hidden bg-neutral-900 rounded-2xl border border-gray-800 ${
-        isHero ? 'h-[500px] w-[600px]' : 'h-[450px] w-[400px]'
+      className={`group relative overflow-hidden bg-neutral-200 ${
+        isHero ? 'h-[500px] w-[600px]' : 'h-[450px] w-[450px]'
       }`}
     >
       <div
@@ -142,18 +142,17 @@ const Card = ({ card }: { card: any }) => {
         }}
         className="absolute inset-0 z-0 transition-transform duration-300 group-hover:scale-110"
       ></div>
-      <div className="absolute inset-0 z-10 bg-gradient-to-t from-black/80 via-black/40 to-transparent"></div>
-      <div className="absolute inset-0 z-20 flex flex-col justify-end p-8">
+      <div className="absolute inset-0 z-10 grid place-content-center">
         {isHero ? (
-          <>
-            <h3 className="text-4xl font-bold text-white mb-2">{card.title}</h3>
-            <p className="text-xl text-gray-300 font-medium">{card.subtitle}</p>
-          </>
+          <div className="bg-gradient-to-br from-white/20 to-white/0 p-8 text-center backdrop-blur-lg rounded-lg">
+            <h3 className="text-5xl font-black uppercase text-white mb-2">{card.title}</h3>
+            <p className="text-2xl text-white font-medium">{card.subtitle}</p>
+          </div>
         ) : (
-          <>
-            <h4 className="text-2xl font-bold text-white mb-3">{card.title}</h4>
-            <p className="text-gray-300 text-sm leading-relaxed">{card.content}</p>
-          </>
+          <div className="bg-gradient-to-br from-white/20 to-white/0 p-8 text-center backdrop-blur-lg rounded-lg max-w-sm">
+            <h4 className="text-3xl font-black uppercase text-white mb-4">{card.title}</h4>
+            <p className="text-white text-sm leading-relaxed">{card.content}</p>
+          </div>
         )}
       </div>
     </div>
@@ -162,8 +161,8 @@ const Card = ({ card }: { card: any }) => {
 
 export default function CaseStudies() {
   return (
-    <section id="case-studies" className="bg-[#1e1e1e]">
-      <div className="py-20">
+    <div id="case-studies" className="bg-[#1e1e1e]">
+      <div className="py-20 bg-[#1e1e1e]">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <motion.div 
             initial={{ opacity: 0, y: 30 }}
@@ -186,14 +185,20 @@ export default function CaseStudies() {
         <div key={caseStudy.id}>
           <HorizontalScrollCarousel caseStudy={caseStudy} />
           {index < caseStudies.length - 1 && (
-            <div className="h-32 bg-[#1e1e1e] flex items-center justify-center">
-              <div className="w-12 h-1 bg-[#ff5722] rounded-full"></div>
+            <div className="h-48 bg-[#1e1e1e] flex items-center justify-center">
+              <span className="font-semibold uppercase text-gray-500">
+                Scroll for next case study
+              </span>
             </div>
           )}
         </div>
       ))}
       
-      <div className="h-32 bg-[#1e1e1e]"></div>
-    </section>
+      <div className="h-48 bg-[#1e1e1e] flex items-center justify-center">
+        <span className="font-semibold uppercase text-gray-500">
+          End of case studies
+        </span>
+      </div>
+    </div>
   );
 }

@@ -110,68 +110,218 @@
   background: hsl(16, 88%, 45%);
 }
 
-/* Book-style service cards */
-.book-container {
+/* Modern service cards */
+.service-card-container {
   display: flex;
   justify-content: center;
   align-items: center;
 }
 
-.book {
+.service-card {
   position: relative;
-  border-radius: 10px;
-  width: 280px;
-  height: 320px;
-  background-color: #f5f5f5;
-  box-shadow: 1px 1px 12px rgba(0, 0, 0, 0.3);
-  transform: preserve-3d;
-  perspective: 2000px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: #000;
-}
-
-.book-content {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  text-align: center;
-  padding: 2rem;
-  height: 100%;
-}
-
-.cover {
-  top: 0;
-  position: absolute;
-  background: linear-gradient(135deg, #1e1e1e 0%, #2d2d2d 100%);
   width: 100%;
-  height: 100%;
-  border-radius: 10px;
+  max-width: 320px;
+  height: 280px;
+  background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%);
+  border-radius: 16px;
+  padding: 2rem;
   cursor: pointer;
-  transition: all 0.5s ease-in-out;
+  transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+  overflow: hidden;
+}
+
+.service-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: linear-gradient(90deg, #ff5722, #ff8a50);
+  transform: scaleX(0);
   transform-origin: left;
-  box-shadow: 1px 1px 12px rgba(0, 0, 0, 0.3);
+  transition: transform 0.4s ease;
+}
+
+.service-card:hover::before {
+  transform: scaleX(1);
+}
+
+.service-card:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 12px 40px rgba(255, 87, 34, 0.2);
+  border-color: rgba(255, 87, 34, 0.3);
+}
+
+.service-icon {
   display: flex;
   align-items: center;
   justify-content: center;
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  width: 64px;
+  height: 64px;
+  background: linear-gradient(135deg, #ff5722, #ff8a50);
+  border-radius: 12px;
+  margin-bottom: 1.5rem;
+  transition: all 0.3s ease;
 }
 
-.cover-content {
+.service-card:hover .service-icon {
+  transform: scale(1.1);
+  box-shadow: 0 8px 25px rgba(255, 87, 34, 0.4);
+}
+
+.service-content {
+  position: relative;
+  z-index: 2;
+  transition: all 0.3s ease;
+}
+
+.service-title {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: white;
+  margin-bottom: 0.75rem;
+  line-height: 1.3;
+}
+
+.service-description {
+  font-size: 0.9rem;
+  color: #a0a0a0;
+  line-height: 1.6;
+  margin-bottom: 0;
+}
+
+.service-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(135deg, rgba(255, 87, 34, 0.95), rgba(255, 138, 80, 0.95));
+  border-radius: 16px;
+  padding: 2rem;
   display: flex;
   flex-direction: column;
-  align-items: center;
   justify-content: center;
-  text-align: center;
-  padding: 2rem;
-  height: 100%;
+  align-items: flex-start;
+  opacity: 0;
+  transform: translateY(20px);
+  transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  backdrop-filter: blur(10px);
 }
 
-.book:hover .cover {
-  transition: all 0.5s ease-in-out;
-  transform: rotateY(-80deg);
+.service-card:hover .service-overlay {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.service-card:hover .service-content {
+  opacity: 0;
+  transform: translateY(-20px);
+}
+
+.service-cta-button {
+  background: rgba(255, 255, 255, 0.2);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  color: white;
+  padding: 0.75rem 1.5rem;
+  border-radius: 8px;
+  font-size: 0.875rem;
+  font-weight: 600;
+  transition: all 0.3s ease;
+  backdrop-filter: blur(10px);
+}
+
+.service-cta-button:hover {
+  background: rgba(255, 255, 255, 0.3);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 15px rgba(255, 255, 255, 0.2);
+}
+
+/* Responsive design for service cards */
+@media (max-width: 1024px) {
+  .service-card {
+    max-width: 300px;
+    height: 260px;
+    padding: 1.75rem;
+  }
+  
+  .service-icon {
+    width: 56px;
+    height: 56px;
+    margin-bottom: 1.25rem;
+  }
+  
+  .service-title {
+    font-size: 1.125rem;
+  }
+  
+  .service-description {
+    font-size: 0.875rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .service-card {
+    max-width: 100%;
+    height: 240px;
+    padding: 1.5rem;
+  }
+  
+  .service-icon {
+    width: 48px;
+    height: 48px;
+    margin-bottom: 1rem;
+  }
+  
+  .service-title {
+    font-size: 1rem;
+    margin-bottom: 0.5rem;
+  }
+  
+  .service-description {
+    font-size: 0.825rem;
+  }
+  
+  .service-overlay {
+    padding: 1.5rem;
+  }
+  
+  .service-overlay h4 {
+    font-size: 1rem;
+    margin-bottom: 0.75rem;
+  }
+  
+  .service-overlay ul {
+    margin-bottom: 1rem;
+  }
+  
+  .service-cta-button {
+    padding: 0.625rem 1.25rem;
+    font-size: 0.8125rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .service-card {
+    height: 220px;
+    padding: 1.25rem;
+  }
+  
+  .service-icon {
+    width: 44px;
+    height: 44px;
+  }
+  
+  .service-title {
+    font-size: 0.9375rem;
+  }
+  
+  .service-description {
+    font-size: 0.8125rem;
+  }
 }
 
 /* Horizontal project cards */

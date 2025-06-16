@@ -101,7 +101,16 @@ This is a modern digital agency website built with React, Express.js, and TypeSc
 
 Preferred communication style: Simple, everyday language.
 
+## Recent Changes
+
+- June 16, 2025: Enhanced responsive design and mobile navbar highlighting
+  - Implemented responsive navbar with mobile hamburger menu
+  - Enhanced section highlighting with device-specific intersection observer settings
+  - Made all components fully responsive across mobile, tablet, and desktop
+  - Improved mobile scrolling behavior and touch interactions
+  - Fixed CSS import order issues
+
 ## Changelog
 
-Changelog:
-- June 15, 2025. Initial setup
+- June 15, 2025: Initial setup
+- June 16, 2025: Complete responsive design implementation

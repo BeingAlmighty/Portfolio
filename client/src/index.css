@@ -1,8 +1,8 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap');
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap');
 
 :root {
   --background: hsl(0, 0%, 0%);
@@ -120,8 +120,9 @@
 .book {
   position: relative;
   border-radius: 10px;
-  width: 280px;
-  height: 320px;
+  width: 100%;
+  max-width: 280px;
+  height: 300px;
   background-color: #f5f5f5;
   box-shadow: 1px 1px 12px rgba(0, 0, 0, 0.3);
   transform: preserve-3d;
@@ -130,6 +131,12 @@
   align-items: center;
   justify-content: center;
   color: #000;
+}
+
+@media (min-width: 640px) {
+  .book {
+    height: 320px;
+  }
 }
 
 .book-content {
@@ -174,30 +181,32 @@
   transform: rotateY(-80deg);
 }
 
-/* Horizontal project cards */
-.project-cards {
-  display: flex;
-  flex-direction: row;
-  gap: 20px;
-  padding: 20px 0;
-  max-width: 1200px;
-  margin: 0 auto;
-  justify-content: center;
-  flex-wrap: wrap;
-}
-
+/* Project cards - responsive grid handled by Tailwind */
 .project-card {
   position: relative;
-  width: 280px;
-  height: 360px;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 25px;
+  font-size: 18px;
   font-weight: bold;
   border-radius: 15px;
   cursor: pointer;
   color: white;
+  min-height: 320px;
+}
+
+@media (min-width: 640px) {
+  .project-card {
+    font-size: 20px;
+    min-height: 360px;
+  }
+}
+
+@media (min-width: 1024px) {
+  .project-card {
+    font-size: 25px;
+    min-height: 380px;
+  }
 }
 
 .project-card.red {

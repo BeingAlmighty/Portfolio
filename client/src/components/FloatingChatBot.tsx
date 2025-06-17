@@ -32,15 +32,36 @@ const FloatingChatBot = () => {
   const [isTyping, setIsTyping] = useStateChat(false);
   const [showInitialMessages, setShowInitialMessages] = useStateChat(false);
   const [hoveredOption, setHoveredOption] = useStateChat<string | null>(null);
+  const [contactSectionInView, setContactSectionInView] = useStateChat(false);
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const chatContainerRef = useRef<HTMLDivElement>(null);
 
-  // Initialize chat when opened
+  // Monitor contact section visibility
   useEffect(() => {
-    if (isOpen && messages.length === 0) {
+    const contactSection = document.getElementById('contact');
+    if (!contactSection) return;
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            setContactSectionInView(true);
+          }
+        });
+      },
+      { threshold: 0.3 }
+    );
+
+    observer.observe(contactSection);
+    return () => observer.disconnect();
+  }, []);
+
+  // Initialize chat when opened AND contact section is in view
+  useEffect(() => {
+    if (isOpen && messages.length === 0 && contactSectionInView) {
       initializeChat();
     }
-  }, [isOpen]);
+  }, [isOpen, contactSectionInView]);
 
   const initializeChat = () => {
     setMessages([]);
@@ -109,14 +130,21 @@ const FloatingChatBot = () => {
   };
 
   const scrollToBottom = () => {
-    setTimeout(() => {
-      messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
-    }, 100);
+    if (chatContainerRef.current) {
+      setTimeout(() => {
+        chatContainerRef.current?.scrollTo({
+          top: chatContainerRef.current.scrollHeight,
+          behavior: 'smooth'
+        });
+      }, 100);
+    }
   };
 
   useEffect(() => {
-    scrollToBottom();
-  }, [messages]);
+    if (isOpen) {
+      scrollToBottom();
+    }
+  }, [messages, isOpen]);
 
   const addBotMessageWithDelay = (botResponse: Message) => {
     setIsTyping(true);

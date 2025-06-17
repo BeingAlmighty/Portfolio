@@ -482,11 +482,15 @@ Is this information correct?`;
                     <motion.div 
                       key={message.id} 
                       className="space-y-1"
-                      initial={{ opacity: 0, y: 20 }}
-                      animate={{ opacity: 1, y: 0 }}
+                      initial={{ opacity: 0, y: 30, scale: 0.8 }}
+                      animate={{ opacity: 1, y: 0, scale: 1 }}
+                      exit={{ opacity: 0, y: -20, scale: 0.8 }}
                       transition={{ 
-                        duration: 0.5,
-                        delay: index === 0 ? 0 : 0.3
+                        duration: 0.4,
+                        delay: 0.1,
+                        type: "spring",
+                        stiffness: 150,
+                        damping: 20
                       }}
                     >
                       <div className={`flex ${message.isBot ? "justify-start" : "justify-end"}`}>
@@ -494,9 +498,14 @@ Is this information correct?`;
                           {message.isBot && (
                             <motion.div 
                               className="w-6 h-6 rounded-full bg-gray-600 flex items-center justify-center text-xs flex-shrink-0 mt-1"
-                              initial={{ scale: 0 }}
-                              animate={{ scale: 1 }}
-                              transition={{ delay: index === 0 ? 0.2 : 0.5, duration: 0.3 }}
+                              initial={{ scale: 0, rotate: -180 }}
+                              animate={{ scale: 1, rotate: 0 }}
+                              transition={{ 
+                                delay: 0.2, 
+                                duration: 0.5,
+                                type: "spring",
+                                stiffness: 200
+                              }}
                             >
                               🐱
                             </motion.div>
@@ -507,13 +516,24 @@ Is this information correct?`;
                                 ? "bg-gray-700 text-white rounded-bl-md"
                                 : "bg-black text-white rounded-br-md"
                             } max-w-full break-words`}
-                            initial={{ opacity: 0, scale: 0.8 }}
-                            animate={{ opacity: 1, scale: 1 }}
+                            initial={{ 
+                              opacity: 0, 
+                              scale: 0.3,
+                              y: 20,
+                              originX: message.isBot ? 0 : 1,
+                              originY: 0.5
+                            }}
+                            animate={{ 
+                              opacity: 1, 
+                              scale: 1,
+                              y: 0
+                            }}
                             transition={{ 
-                              delay: index === 0 ? 0.4 : 0.7, 
-                              duration: 0.3,
+                              delay: 0.3, 
+                              duration: 0.5,
                               type: "spring",
-                              stiffness: 200
+                              stiffness: 120,
+                              damping: 15
                             }}
                           >
                             {message.text}
@@ -524,7 +544,7 @@ Is this information correct?`;
                         className={`text-xs text-gray-500 ${message.isBot ? "text-left ml-8" : "text-right"}`}
                         initial={{ opacity: 0 }}
                         animate={{ opacity: 1 }}
-                        transition={{ delay: index === 0 ? 0.8 : 1.1 }}
+                        transition={{ delay: 0.6, duration: 0.3 }}
                       >
                         {index < 3 ? "Just now" : "1m ago"}
                       </motion.div>
@@ -550,9 +570,14 @@ Is this information correct?`;
                 <div className="p-4 pt-0">
                   <motion.div 
                     className="space-y-2"
-                    initial={{ opacity: 0, y: 20 }}
+                    initial={{ opacity: 0, y: 30 }}
                     animate={{ opacity: 1, y: 0 }}
-                    transition={{ delay: 0.3 }}
+                    transition={{ 
+                      delay: 0.5,
+                      duration: 0.4,
+                      type: "spring",
+                      stiffness: 120
+                    }}
                   >
                     {messages[messages.length - 1].options!.map((option, index) => (
                       <motion.button
@@ -562,12 +587,34 @@ Is this information correct?`;
                         onMouseLeave={() => setHoveredOption(null)}
                         className={`w-full text-left px-4 py-3 rounded-full transition-all duration-200 text-xs border-2 flex items-center gap-2 ${
                           hoveredOption === option
-                            ? "bg-gray-100 text-gray-900 border-gray-300"
+                            ? "bg-gray-100 text-gray-900 border-gray-300 shadow-md transform scale-105"
                             : "bg-gray-800 text-white border-gray-600 hover:border-gray-500"
                         }`}
-                        initial={{ opacity: 0, x: -20 }}
-                        animate={{ opacity: 1, x: 0 }}
-                        transition={{ delay: 0.1 * index }}
+                        initial={{ 
+                          opacity: 0, 
+                          x: -30,
+                          scale: 0.8
+                        }}
+                        animate={{ 
+                          opacity: 1, 
+                          x: 0,
+                          scale: 1
+                        }}
+                        transition={{ 
+                          delay: 0.6 + (0.1 * index),
+                          duration: 0.4,
+                          type: "spring",
+                          stiffness: 150,
+                          damping: 20
+                        }}
+                        whileHover={{ 
+                          scale: 1.02,
+                          transition: { duration: 0.2 }
+                        }}
+                        whileTap={{ 
+                          scale: 0.98,
+                          transition: { duration: 0.1 }
+                        }}
                       >
                         {/* Radio Button Circle */}
                         <div className={`w-3 h-3 rounded-full border-2 flex items-center justify-center transition-all duration-200 ${
@@ -580,7 +627,11 @@ Is this information correct?`;
                               className="w-1.5 h-1.5 rounded-full bg-gray-900"
                               initial={{ scale: 0 }}
                               animate={{ scale: 1 }}
-                              transition={{ duration: 0.15 }}
+                              transition={{ 
+                                duration: 0.2,
+                                type: "spring",
+                                stiffness: 300
+                              }}
                             />
                           )}
                         </div>

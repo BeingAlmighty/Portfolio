@@ -103,6 +103,14 @@ Preferred communication style: Simple, everyday language.
 
 ## Recent Changes
 
+- June 17, 2025: Fixed chatbot issues and improved animations
+  - Removed "Mobile App Development" from both FloatingChatBot and ContactSection service options (now only 4 services)
+  - Implemented MacOS-style genie effect for chatbot popup with spring animations
+  - Enhanced message bubble animations with improved popout effects and timing
+  - Added better option button animations with hover states and scaling effects
+  - Fixed auto-scrolling issue by implementing scroll restoration prevention
+  - Improved typing indicator and message sequencing animations
+
 - June 16, 2025: Enhanced responsive design and mobile navbar highlighting
   - Implemented responsive navbar with mobile hamburger menu
   - Enhanced section highlighting with device-specific intersection observer settings

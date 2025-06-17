@@ -241,7 +241,7 @@ const ChatBot = () => {
             id: (Date.now() + 1).toString(),
             text: "Perfect! What's your main goal?",
             isBot: true,
-            options: ["Web Development", "Mobile App Development", "Workflow Automation", "Digital Marketing", "AI Agents"]
+            options: ["Web Development", "Workflow Automation", "Digital Marketing", "AI Agents"]
           };
           setCurrentStep("services");
         } else {
@@ -291,7 +291,7 @@ const ChatBot = () => {
             id: (Date.now() + 1).toString(),
             text: "We create amazing digital experiences! What interests you most?",
             isBot: true,
-            options: ["Web Development", "Mobile App Development", "Workflow Automation", "Digital Marketing", "AI Agents"]
+            options: ["Web Development", "Workflow Automation", "Digital Marketing", "AI Agents"]
           };
           setCurrentStep("services");
         } else {

@@ -90,29 +90,47 @@ const ChatBot = () => {
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const chatContainerRef = useRef<HTMLDivElement>(null);
 
-  // Initialize chat with delayed animations
+  // Initialize chat with delayed animations and typing indicators
   useEffect(() => {
     const initializeChat = async () => {
+      // Show typing indicator before first message
+      setTimeout(() => {
+        setIsTyping(true);
+      }, 500);
+
       // First message: "Meow!" with delay
       setTimeout(() => {
+        setIsTyping(false);
         setMessages([{
           id: "1",
           text: "Meow!",
           isBot: true
         }]);
-      }, 800);
+      }, 1500);
 
-      // Second message: "I'm Billu, Solvixx pet cat. I'll guide you around." with delay
+      // Show typing indicator before second message
       setTimeout(() => {
+        setIsTyping(true);
+      }, 2000);
+
+      // Second message: "I'm Billu, Solvixx pet cat. I will guide you around." with delay
+      setTimeout(() => {
+        setIsTyping(false);
         setMessages(prev => [...prev, {
           id: "2", 
-          text: "I am Coco, A&B's pet cat. I will guide you around.",
+          text: "I'm Billu, Solvixx pet cat. I will guide you around.",
           isBot: true
         }]);
-      }, 2200);
+      }, 3500);
+
+      // Show typing indicator before third message
+      setTimeout(() => {
+        setIsTyping(true);
+      }, 4000);
 
       // Third message: "What brings you here today?" with options
       setTimeout(() => {
+        setIsTyping(false);
         setMessages(prev => [...prev, {
           id: "3",
           text: "What brings you here today?",
@@ -120,7 +138,7 @@ const ChatBot = () => {
           options: ["Looking for your services", "Just here for fun"]
         }]);
         setShowInitialMessages(true);
-      }, 3600);
+      }, 5500);
     };
 
     initializeChat();
@@ -140,24 +158,39 @@ const ChatBot = () => {
     setShowInitialMessages(false);
     setHoveredOption(null);
     
-    // Reinitialize chat with delayed animations
+    // Reinitialize chat with typing indicators and delayed animations
     setTimeout(() => {
+      setIsTyping(true);
+    }, 500);
+
+    setTimeout(() => {
+      setIsTyping(false);
       setMessages([{
         id: "1",
         text: "Meow!",
         isBot: true
       }]);
-    }, 800);
+    }, 1500);
 
     setTimeout(() => {
+      setIsTyping(true);
+    }, 2000);
+
+    setTimeout(() => {
+      setIsTyping(false);
       setMessages(prev => [...prev, {
         id: "2", 
-        text: "I am Coco, A&B's pet cat. I will guide you around.",
+        text: "I'm Billu, Solvixx pet cat. I will guide you around.",
         isBot: true
       }]);
-    }, 2200);
+    }, 3500);
 
     setTimeout(() => {
+      setIsTyping(true);
+    }, 4000);
+
+    setTimeout(() => {
+      setIsTyping(false);
       setMessages(prev => [...prev, {
         id: "3",
         text: "What brings you here today?",
@@ -165,7 +198,7 @@ const ChatBot = () => {
         options: ["Looking for your services", "Just here for fun"]
       }]);
       setShowInitialMessages(true);
-    }, 3600);
+    }, 5500);
   };
 
   const scrollToBottom = () => {
@@ -444,7 +477,7 @@ Is this information correct?`;
           <div className="w-8 h-8 rounded-full bg-gray-600 flex items-center justify-center">
             🐱
           </div>
-          <h3 className="text-xl font-bold text-white">Chat with Coco</h3>
+          <h3 className="text-xl font-bold text-white">Chat with Billu</h3>
         </div>
         <button
           onClick={resetChat}

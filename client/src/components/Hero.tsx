@@ -48,9 +48,9 @@ const SimpleHero = () => {
                 behavior: "smooth",
               });
             }}
-            className="bg-[#ff5722] hover:bg-[#e64a19] text-white px-6 sm:px-8 py-3 sm:py-4 rounded-full font-semibold transition-all duration-300 transform hover:scale-105 text-sm sm:text-base"
+            className="custom-get-started-btn"
           >
-            Start Your Project
+            Get Started
           </button>
         </motion.div>
       </div>
@@ -67,34 +67,34 @@ const SimpleHero = () => {
 
 const ParallaxImages = () => {
   return (
-    <div className="mx-auto max-w-5xl px-4 sm:px-6 lg:px-8 pt-[100px] sm:pt-[150px] lg:pt-[200px]">
+    <div className="mx-auto max-w-7xl px-3 sm:px-4 md:px-6 lg:px-8 pt-[80px] sm:pt-[120px] md:pt-[150px] lg:pt-[200px]">
       <ParallaxImg
-        src="https://images.unsplash.com/photo-1558655146-d09347e92766?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&h=600"
+        src="https://images.unsplash.com/photo-1558655146-d09347e92766?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&h=800"
         alt="Web development workspace"
-        start={-100}
-        end={100}
-        className="w-full sm:w-2/3 md:w-1/2 lg:w-1/3 rounded-xl mb-4 sm:mb-8"
+        start={-50}
+        end={50}
+        className="w-full max-w-sm sm:max-w-md md:max-w-lg lg:max-w-xl xl:max-w-2xl rounded-lg sm:rounded-xl mb-6 sm:mb-8 md:mb-12"
       />
       <ParallaxImg
-        src="https://images.unsplash.com/photo-1581291518857-4e27b48ff24e?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&h=600"
+        src="https://images.unsplash.com/photo-1581291518857-4e27b48ff24e?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&h=800"
         alt="UI/UX design process"
-        start={100}
-        end={-150}
-        className="mx-auto w-full sm:w-4/5 md:w-3/4 lg:w-2/3 rounded-xl mb-4 sm:mb-8"
+        start={80}
+        end={-100}
+        className="mx-auto w-full max-w-md sm:max-w-lg md:max-w-xl lg:max-w-2xl xl:max-w-3xl rounded-lg sm:rounded-xl mb-6 sm:mb-8 md:mb-12"
       />
       <ParallaxImg
-        src="https://images.unsplash.com/photo-1559028006-448665bd7c7f?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&h=600"
+        src="https://images.unsplash.com/photo-1559028006-448665bd7c7f?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&h=800"
         alt="Digital marketing analytics"
-        start={-100}
-        end={100}
-        className="ml-auto w-full sm:w-2/3 md:w-1/2 lg:w-1/3 rounded-xl mb-4 sm:mb-8"
+        start={-60}
+        end={80}
+        className="ml-auto w-full max-w-sm sm:max-w-md md:max-w-lg lg:max-w-xl xl:max-w-2xl rounded-lg sm:rounded-xl mb-6 sm:mb-8 md:mb-12"
       />
       <ParallaxImg
-        src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&h=600"
+        src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&h=800"
         alt="Team collaboration"
         start={0}
-        end={-250}
-        className="ml-0 sm:ml-12 md:ml-16 lg:ml-24 w-full sm:w-3/4 md:w-7/12 lg:w-5/12 rounded-xl"
+        end={-150}
+        className="ml-0 sm:ml-8 md:ml-12 lg:ml-16 xl:ml-24 w-full max-w-md sm:max-w-lg md:max-w-xl lg:max-w-2xl rounded-lg sm:rounded-xl"
       />
     </div>
   );

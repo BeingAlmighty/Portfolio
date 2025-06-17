@@ -103,15 +103,15 @@ Preferred communication style: Simple, everyday language.
 
 ## Recent Changes
 
-- June 17, 2025: Fixed chatbot issues and improved animations
-  - Removed "Mobile App Development" from both FloatingChatBot and ContactSection service options (now only 4 services)
-  - Implemented MacOS-style genie effect for chatbot popup with spring animations
-  - Enhanced message bubble animations with improved popout effects and timing
-  - Added better option button animations with hover states and scaling effects
-  - Fixed auto-scrolling issue by implementing scroll restoration prevention
-  - Improved typing indicator and message sequencing animations
-  - Isolated chatbot scroll behavior to prevent interference with main page navigation
-  - Changed project card hover background color to #101e34
+- June 17, 2025: Updated website design and removed case studies
+  - Made parallax images in Hero section fully responsive with optimized sizing and spacing for all devices
+  - Removed case studies section from navbar and footer navigation
+  - Replaced all cat emoji (🐱) usage with custom cat.jpeg SVG image in both FloatingChatBot and ContactSection
+  - Implemented custom "Get Started" button animation with orange/white color scheme (bubble effect)
+  - Enhanced parallax image responsiveness with better max-width constraints and improved image quality
+  - Removed About section from footer quick links
+  - Updated button styling with overflow hidden circular animation effect
+  - Fixed import structure in FloatingChatBot component
 
 - June 16, 2025: Enhanced responsive design and mobile navbar highlighting
   - Implemented responsive navbar with mobile hamburger menu

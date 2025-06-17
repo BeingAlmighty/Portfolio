@@ -333,7 +333,7 @@ const ChatBot = () => {
         if (option === "Submit") {
           botResponse = {
             id: (Date.now() + 1).toString(),
-            text: "Awesome! Your information has been submitted. Our team will reach out within 24 hours to discuss your project in detail. Meow! 🐱",
+            text: "Awesome! Your information has been submitted. Our team will reach out within 24 hours to discuss your project in detail. Meow!",
             isBot: true
           };
           setCurrentStep("complete");

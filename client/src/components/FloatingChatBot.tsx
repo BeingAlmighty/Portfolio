@@ -382,8 +382,8 @@ Is this information correct?`;
   const TypingIndicator = () => (
     <div className="flex justify-start mb-1">
       <div className="flex items-start gap-2 max-w-xs">
-        <div className="w-6 h-6 rounded-full bg-gray-600 flex items-center justify-center text-xs flex-shrink-0 mt-1">
-          🐱
+        <div className="w-6 h-6 rounded-full bg-gray-600 flex items-center justify-center text-xs flex-shrink-0 mt-1 overflow-hidden">
+          <img src={catImage} alt="Cat" className="w-full h-full object-cover" />
         </div>
         <div className="bg-gray-700 text-white px-4 py-3 rounded-2xl rounded-bl-md">
           <div className="flex space-x-1">
@@ -414,7 +414,7 @@ Is this information correct?`;
             }}
             transition={{ delay: 1, type: "spring", stiffness: 200 }}
           >
-            🐱
+            <img src={catImage} alt="Cat" className="w-8 h-8 rounded-full object-cover" />
           </motion.button>
         )}
       </AnimatePresence>
@@ -466,8 +466,8 @@ Is this information correct?`;
             >
               <div className="flex items-center justify-between p-4 border-b border-gray-700">
                 <div className="flex items-center gap-3">
-                  <div className="w-8 h-8 rounded-full bg-gray-600 flex items-center justify-center">
-                    🐱
+                  <div className="w-8 h-8 rounded-full bg-gray-600 flex items-center justify-center overflow-hidden">
+                    <img src={catImage} alt="Cat" className="w-full h-full object-cover" />
                   </div>
                   <h3 className="text-lg font-bold text-white">Chat with Billu</h3>
                 </div>
@@ -532,7 +532,7 @@ Is this information correct?`;
                                 stiffness: 200
                               } : {}}
                             >
-                              🐱
+                              <img src={catImage} alt="Cat" className="w-full h-full object-cover" />
                             </motion.div>
                           )}
                           <motion.div
@@ -591,8 +591,8 @@ Is this information correct?`;
                 {messages.length === 0 && !isTyping && (
                   <div className="flex flex-col items-center justify-center h-full">
                     <div className="text-center mb-6">
-                      <div className="w-16 h-16 rounded-full bg-gray-600 flex items-center justify-center text-2xl mb-4 mx-auto">
-                        🐱
+                      <div className="w-16 h-16 rounded-full bg-gray-600 flex items-center justify-center text-2xl mb-4 mx-auto overflow-hidden">
+                        <img src={catImage} alt="Cat" className="w-full h-full object-cover" />
                       </div>
                       <h3 className="text-white text-lg font-semibold mb-2">Hi! I'm Billu</h3>
                       <p className="text-gray-400 text-sm">Solvixx's pet cat. I'll help guide you around!</p>

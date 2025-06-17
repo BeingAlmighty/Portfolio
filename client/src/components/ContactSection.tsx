@@ -488,7 +488,18 @@ Is this information correct?`;
         </button>
       </div>
       
-      <div ref={chatContainerRef} className="flex-1 overflow-y-auto space-y-4 mb-4 pr-2">
+      <div 
+        ref={chatContainerRef} 
+        className="flex-1 overflow-y-auto space-y-4 mb-4 pr-2 chat-scrollable"
+        style={{ 
+          maxHeight: 'calc(70vh - 160px)',
+          overscrollBehavior: 'contain',
+          scrollBehavior: 'smooth'
+        }}
+        onWheel={(e) => {
+          e.stopPropagation();
+        }}
+      >
         <AnimatePresence>
           {messages.map((message, index) => (
             <motion.div 

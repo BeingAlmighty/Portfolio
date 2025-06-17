@@ -111,6 +111,25 @@
   background: hsl(16, 88%, 45%);
 }
 
+/* Chat container specific scrollbar */
+.chat-scrollable::-webkit-scrollbar {
+  width: 6px;
+}
+
+.chat-scrollable::-webkit-scrollbar-track {
+  background: rgba(55, 65, 81, 0.3);
+  border-radius: 3px;
+}
+
+.chat-scrollable::-webkit-scrollbar-thumb {
+  background: rgba(107, 114, 128, 0.8);
+  border-radius: 3px;
+}
+
+.chat-scrollable::-webkit-scrollbar-thumb:hover {
+  background: rgba(107, 114, 128, 1);
+}
+
 /* Book-style service cards */
 .book-container {
   display: flex;

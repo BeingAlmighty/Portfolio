@@ -444,7 +444,7 @@ Is this information correct?`;
           <div className="w-8 h-8 rounded-full bg-gray-600 flex items-center justify-center">
             🐱
           </div>
-          <h3 className="text-xl font-bold text-white">Chat with Billu</h3>
+          <h3 className="text-xl font-bold text-white">Chat with Coco</h3>
         </div>
         <button
           onClick={resetChat}
@@ -456,31 +456,60 @@ Is this information correct?`;
       </div>
       
       <div ref={chatContainerRef} className="flex-1 overflow-y-auto space-y-4 mb-4 pr-2">
-        {messages.map((message) => (
-          <div key={message.id} className="space-y-1">
-            <div className={`flex ${message.isBot ? "justify-start" : "justify-end"}`}>
-              <div className="flex items-start gap-3 max-w-sm">
-                {message.isBot && (
-                  <div className="w-8 h-8 rounded-full bg-gray-600 flex items-center justify-center text-sm flex-shrink-0 mt-1">
-                    🐱
-                  </div>
-                )}
-                <div
-                  className={`px-5 py-3 rounded-2xl ${
-                    message.isBot
-                      ? "bg-gray-700 text-white rounded-bl-md"
-                      : "bg-black text-white rounded-br-md"
-                  } max-w-full break-words`}
-                >
-                  {message.text}
+        <AnimatePresence>
+          {messages.map((message, index) => (
+            <motion.div 
+              key={message.id} 
+              className="space-y-1"
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ 
+                duration: 0.5,
+                delay: index === 0 ? 0 : 0.3
+              }}
+            >
+              <div className={`flex ${message.isBot ? "justify-start" : "justify-end"}`}>
+                <div className="flex items-start gap-3 max-w-sm">
+                  {message.isBot && (
+                    <motion.div 
+                      className="w-8 h-8 rounded-full bg-gray-600 flex items-center justify-center text-sm flex-shrink-0 mt-1"
+                      initial={{ scale: 0 }}
+                      animate={{ scale: 1 }}
+                      transition={{ delay: index === 0 ? 0.2 : 0.5, duration: 0.3 }}
+                    >
+                      🐱
+                    </motion.div>
+                  )}
+                  <motion.div
+                    className={`px-5 py-3 rounded-2xl ${
+                      message.isBot
+                        ? "bg-gray-700 text-white rounded-bl-md"
+                        : "bg-black text-white rounded-br-md"
+                    } max-w-full break-words`}
+                    initial={{ opacity: 0, scale: 0.8 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    transition={{ 
+                      delay: index === 0 ? 0.4 : 0.7, 
+                      duration: 0.3,
+                      type: "spring",
+                      stiffness: 200
+                    }}
+                  >
+                    {message.text}
+                  </motion.div>
                 </div>
               </div>
-            </div>
-            <div className={`text-xs text-gray-500 ${message.isBot ? "text-left ml-11" : "text-right"}`}>
-              Just now
-            </div>
-          </div>
-        ))}
+              <motion.div 
+                className={`text-xs text-gray-500 ${message.isBot ? "text-left ml-11" : "text-right"}`}
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ delay: index === 0 ? 0.8 : 1.1 }}
+              >
+                {index < 3 ? "Just now" : "1m ago"}
+              </motion.div>
+            </motion.div>
+          ))}
+        </AnimatePresence>
         
         {/* Typing Indicator */}
         {isTyping && (
@@ -495,19 +524,48 @@ Is this information correct?`;
         <div ref={messagesEndRef} />
       </div>
 
-      {/* Options */}
+      {/* Radio Button Style Options */}
       {!isTyping && messages[messages.length - 1]?.options && (
-        <div className="space-y-3">
+        <motion.div 
+          className="space-y-3"
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.3 }}
+        >
           {messages[messages.length - 1].options!.map((option, index) => (
-            <button
+            <motion.button
               key={index}
               onClick={() => handleOptionClick(option)}
-              className="w-full text-left px-5 py-3 bg-gray-800 hover:bg-gray-700 text-white rounded-full transition-colors text-sm border border-gray-600 hover:border-gray-500"
+              onMouseEnter={() => setHoveredOption(option)}
+              onMouseLeave={() => setHoveredOption(null)}
+              className={`w-full text-left px-6 py-4 rounded-full transition-all duration-200 text-sm border-2 flex items-center gap-3 ${
+                hoveredOption === option
+                  ? "bg-gray-100 text-gray-900 border-gray-300"
+                  : "bg-gray-800 text-white border-gray-600 hover:border-gray-500"
+              }`}
+              initial={{ opacity: 0, x: -20 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ delay: 0.1 * index }}
             >
-              {option}
-            </button>
+              {/* Radio Button Circle */}
+              <div className={`w-4 h-4 rounded-full border-2 flex items-center justify-center transition-all duration-200 ${
+                hoveredOption === option
+                  ? "border-gray-900"
+                  : "border-gray-400"
+              }`}>
+                {hoveredOption === option && (
+                  <motion.div
+                    className="w-2 h-2 rounded-full bg-gray-900"
+                    initial={{ scale: 0 }}
+                    animate={{ scale: 1 }}
+                    transition={{ duration: 0.15 }}
+                  />
+                )}
+              </div>
+              <span className="flex-1">{option}</span>
+            </motion.button>
           ))}
-        </div>
+        </motion.div>
       )}
 
       {/* Input Field */}

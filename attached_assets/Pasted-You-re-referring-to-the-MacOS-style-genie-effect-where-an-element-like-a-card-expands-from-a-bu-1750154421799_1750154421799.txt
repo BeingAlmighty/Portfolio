@@ -1,0 +1,100 @@
+You're referring to the MacOS-style “genie effect”, where an element (like a card) expands from a button and then sucks back in smoothly — a visually pleasing zoom/stretch animation.
+
+🎯 What You Want:
+A button when clicked reveals a card (expanding from the button)
+
+When the card is closed, it shrinks/sucks back into the button
+
+A slick MacOS-style "genie" effect
+
+✅ Here's a Working Example (React + TailwindCSS + Framer Motion):
+jsx
+Copy
+Edit
+import { useState } from "react";
+import { motion, AnimatePresence } from "framer-motion";
+
+export default function GenieEffect() {
+  const [isOpen, setIsOpen] = useState(false);
+
+  return (
+    <div className="flex justify-center items-center h-screen bg-neutral-900">
+      <AnimatePresence>
+        {!isOpen && (
+          <motion.button
+            initial={{ scale: 0.9 }}
+            animate={{ scale: 1 }}
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
+            className="bg-white text-black font-semibold px-6 py-3 rounded-lg shadow-xl"
+            onClick={() => setIsOpen(true)}
+          >
+            Show Card
+          </motion.button>
+        )}
+
+        {isOpen && (
+          <motion.div
+            key="card"
+            initial={{
+              opacity: 0,
+              scale: 0.5,
+              y: -100,
+              originX: 0.5,
+              originY: 0.5,
+            }}
+            animate={{
+              opacity: 1,
+              scale: 1,
+              y: 0,
+              transition: { type: "spring", stiffness: 100, damping: 15 },
+            }}
+            exit={{
+              opacity: 0,
+              scale: 0.3,
+              y: -100,
+              transition: { duration: 0.4, ease: "easeInOut" },
+            }}
+            className="relative bg-white text-black w-[300px] h-[200px] rounded-xl shadow-2xl flex flex-col items-center justify-center"
+          >
+            <h2 className="text-xl font-bold mb-4">Card Title</h2>
+            <p className="text-gray-700 mb-6 px-4 text-center">
+              This is the content of the card. Smooth animation, just like macOS.
+            </p>
+            <button
+              className="bg-black text-white px-4 py-2 rounded-md"
+              onClick={() => setIsOpen(false)}
+            >
+              Close
+            </button>
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </div>
+  );
+}
+📦 Install Framer Motion
+If you're using Create React App or Next.js:
+
+bash
+Copy
+Edit
+npm install framer-motion
+# or
+yarn add framer-motion
+✨ Animation Highlights
+initial → sets starting transform when showing
+
+animate → springy pop-out for genie appearance
+
+exit → scale-down + fade for sucking back effect
+
+AnimatePresence → handles mount/unmount animation
+
+🧠 Optional Enhancements
+Animate from button’s position using layout IDs (layoutId)
+
+Morph shapes using clip-path or scaleX/scaleY like true MacOS genie
+
+Add easing like "anticipate" or "backInOut" for bouncier feel
+

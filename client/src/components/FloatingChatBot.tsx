@@ -130,18 +130,18 @@ const FloatingChatBot = () => {
   };
 
   const scrollToBottom = () => {
-    if (chatContainerRef.current) {
-      setTimeout(() => {
-        chatContainerRef.current?.scrollTo({
-          top: chatContainerRef.current.scrollHeight,
-          behavior: 'smooth'
-        });
-      }, 100);
+    if (chatContainerRef.current && isOpen) {
+      // Use requestAnimationFrame to ensure DOM is updated first
+      requestAnimationFrame(() => {
+        if (chatContainerRef.current) {
+          chatContainerRef.current.scrollTop = chatContainerRef.current.scrollHeight;
+        }
+      });
     }
   };
 
   useEffect(() => {
-    if (isOpen) {
+    if (isOpen && messages.length > 0) {
       scrollToBottom();
     }
   }, [messages, isOpen]);
@@ -499,9 +499,12 @@ Is this information correct?`;
                 className="flex-1 overflow-y-auto space-y-3 p-4 chat-scrollable"
                 style={{ 
                   overscrollBehavior: 'contain',
-                  scrollBehavior: 'smooth'
+                  scrollBehavior: 'auto'
                 }}
                 onWheel={(e) => {
+                  e.stopPropagation();
+                }}
+                onScroll={(e) => {
                   e.stopPropagation();
                 }}
               >

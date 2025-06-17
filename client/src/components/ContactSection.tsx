@@ -202,13 +202,20 @@ const ChatBot = () => {
   };
 
   const scrollToBottom = () => {
-    setTimeout(() => {
-      messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
-    }, 100);
+    if (chatContainerRef.current) {
+      // Use requestAnimationFrame to ensure DOM is updated first
+      requestAnimationFrame(() => {
+        if (chatContainerRef.current) {
+          chatContainerRef.current.scrollTop = chatContainerRef.current.scrollHeight;
+        }
+      });
+    }
   };
 
   useEffect(() => {
-    scrollToBottom();
+    if (messages.length > 0) {
+      scrollToBottom();
+    }
   }, [messages]);
 
   const addBotMessageWithDelay = (botResponse: Message) => {
@@ -494,9 +501,12 @@ Is this information correct?`;
         style={{ 
           maxHeight: 'calc(70vh - 160px)',
           overscrollBehavior: 'contain',
-          scrollBehavior: 'smooth'
+          scrollBehavior: 'auto'
         }}
         onWheel={(e) => {
+          e.stopPropagation();
+        }}
+        onScroll={(e) => {
           e.stopPropagation();
         }}
       >

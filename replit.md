@@ -110,6 +110,8 @@ Preferred communication style: Simple, everyday language.
   - Added better option button animations with hover states and scaling effects
   - Fixed auto-scrolling issue by implementing scroll restoration prevention
   - Improved typing indicator and message sequencing animations
+  - Isolated chatbot scroll behavior to prevent interference with main page navigation
+  - Changed project card hover background color to #101e34
 
 - June 16, 2025: Enhanced responsive design and mobile navbar highlighting
   - Implemented responsive navbar with mobile hamburger menu

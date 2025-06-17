@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useRef, useEffect } from "react";
 import { motion } from "framer-motion";
 import { Mail, Phone, MapPin, Linkedin, Instagram, Twitter } from "lucide-react";
 
@@ -65,6 +65,17 @@ interface Message {
   text: string;
   isBot: boolean;
   options?: string[];
+  inputType?: 'text' | 'email' | 'phone';
+  inputPlaceholder?: string;
+  skipOption?: boolean;
+}
+
+interface UserData {
+  service?: string;
+  budget?: string;
+  brandName?: string;
+  email?: string;
+  phone?: string;
 }
 
 const ChatBot = () => {
@@ -77,9 +88,22 @@ const ChatBot = () => {
     }
   ]);
   const [currentStep, setCurrentStep] = useState("initial");
+  const [userData, setUserData] = useState<UserData>({});
+  const [inputValue, setInputValue] = useState("");
+  const messagesEndRef = useRef<HTMLDivElement>(null);
+  const chatContainerRef = useRef<HTMLDivElement>(null);
+
+  const scrollToBottom = () => {
+    setTimeout(() => {
+      messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
+    }, 100);
+  };
+
+  useEffect(() => {
+    scrollToBottom();
+  }, [messages]);
 
   const handleOptionClick = (option: string) => {
-    // Add user's choice
     const userMessage: Message = {
       id: Date.now().toString(),
       text: option,
@@ -110,6 +134,7 @@ const ChatBot = () => {
         break;
 
       case "services":
+        setUserData(prev => ({ ...prev, service: option }));
         botResponse = {
           id: (Date.now() + 1).toString(),
           text: `Great choice! For ${option}, what's your budget range?`,
@@ -120,12 +145,16 @@ const ChatBot = () => {
         break;
 
       case "budget":
+        setUserData(prev => ({ ...prev, budget: option }));
         botResponse = {
           id: (Date.now() + 1).toString(),
-          text: "Awesome! I'll connect you with our team. They'll reach out within 24 hours to discuss your project in detail.",
-          isBot: true
+          text: "Please enter your brand name.",
+          isBot: true,
+          inputType: 'text',
+          inputPlaceholder: 'Enter your brand name...',
+          skipOption: false
         };
-        setCurrentStep("complete");
+        setCurrentStep("brandName");
         break;
 
       case "fun":
@@ -158,40 +187,155 @@ const ChatBot = () => {
     setMessages(prev => [...prev, userMessage, botResponse]);
   };
 
+  const handleInputSubmit = (value: string) => {
+    if (!value.trim() && !messages[messages.length - 1]?.skipOption) return;
+
+    const userMessage: Message = {
+      id: Date.now().toString(),
+      text: value.trim() || "Skipped",
+      isBot: false
+    };
+
+    let botResponse: Message;
+
+    switch (currentStep) {
+      case "brandName":
+        setUserData(prev => ({ ...prev, brandName: value.trim() }));
+        botResponse = {
+          id: (Date.now() + 1).toString(),
+          text: "Great! Now, could you share your email address? (Optional)",
+          isBot: true,
+          inputType: 'email',
+          inputPlaceholder: 'Enter your email...',
+          skipOption: true
+        };
+        setCurrentStep("email");
+        break;
+
+      case "email":
+        setUserData(prev => ({ ...prev, email: value.trim() }));
+        botResponse = {
+          id: (Date.now() + 1).toString(),
+          text: "And your phone number? (Optional)",
+          isBot: true,
+          inputType: 'phone',
+          inputPlaceholder: 'Enter your phone number...',
+          skipOption: true
+        };
+        setCurrentStep("phone");
+        break;
+
+      case "phone":
+        setUserData(prev => ({ ...prev, phone: value.trim() }));
+        botResponse = {
+          id: (Date.now() + 1).toString(),
+          text: "Perfect! I have all the information I need. Our team will reach out within 24 hours to discuss your project in detail. Meow!",
+          isBot: true
+        };
+        setCurrentStep("complete");
+        break;
+
+      default:
+        botResponse = {
+          id: (Date.now() + 1).toString(),
+          text: "Thanks for chatting! Feel free to contact us anytime.",
+          isBot: true
+        };
+    }
+
+    setMessages(prev => [...prev, userMessage, botResponse]);
+    setInputValue("");
+  };
+
+  const handleSkip = () => {
+    handleInputSubmit("");
+  };
+
   return (
     <div className="bg-gray-900 rounded-xl p-6 h-96 flex flex-col">
-      <h3 className="text-xl font-bold text-white mb-4">Chat with Coco</h3>
+      <div className="flex items-center gap-3 mb-4">
+        <div className="w-8 h-8 rounded-full bg-gray-600 flex items-center justify-center">
+          🐱
+        </div>
+        <h3 className="text-xl font-bold text-white">Chat with Coco</h3>
+      </div>
       
-      <div className="flex-1 overflow-y-auto space-y-3 mb-4">
+      <div ref={chatContainerRef} className="flex-1 overflow-y-auto space-y-3 mb-4 pr-2">
         {messages.map((message) => (
-          <div
-            key={message.id}
-            className={`flex ${message.isBot ? "justify-start" : "justify-end"}`}
-          >
-            <div
-              className={`max-w-xs px-4 py-2 rounded-lg ${
-                message.isBot
-                  ? "bg-gray-700 text-white"
-                  : "bg-[#ff5722] text-white"
-              }`}
-            >
-              {message.text}
+          <div key={message.id}>
+            <div className={`flex ${message.isBot ? "justify-start" : "justify-end"} mb-1`}>
+              <div className="flex items-start gap-2 max-w-xs">
+                {message.isBot && (
+                  <div className="w-6 h-6 rounded-full bg-gray-600 flex items-center justify-center text-xs flex-shrink-0 mt-1">
+                    🐱
+                  </div>
+                )}
+                <div
+                  className={`px-4 py-3 rounded-2xl ${
+                    message.isBot
+                      ? "bg-gray-700 text-white rounded-bl-md"
+                      : "bg-[#ff5722] text-white rounded-br-md"
+                  }`}
+                >
+                  {message.text}
+                </div>
+              </div>
+            </div>
+            <div className={`text-xs text-gray-500 ${message.isBot ? "text-left ml-8" : "text-right"}`}>
+              Just now
             </div>
           </div>
         ))}
+        <div ref={messagesEndRef} />
       </div>
 
+      {/* Options */}
       {messages[messages.length - 1]?.options && (
         <div className="space-y-2">
           {messages[messages.length - 1].options!.map((option, index) => (
             <button
               key={index}
               onClick={() => handleOptionClick(option)}
-              className="w-full text-left px-3 py-2 bg-gray-800 hover:bg-gray-700 text-white rounded-lg transition-colors text-sm"
+              className="w-full text-left px-4 py-3 bg-gray-800 hover:bg-gray-700 text-white rounded-full transition-colors text-sm border border-gray-600 hover:border-gray-500"
             >
               {option}
             </button>
           ))}
+        </div>
+      )}
+
+      {/* Input Field */}
+      {messages[messages.length - 1]?.inputType && (
+        <div className="space-y-2">
+          <div className="flex gap-2">
+            <input
+              type={messages[messages.length - 1].inputType}
+              value={inputValue}
+              onChange={(e) => setInputValue(e.target.value)}
+              placeholder={messages[messages.length - 1].inputPlaceholder}
+              className="flex-1 px-4 py-3 bg-gray-800 text-white rounded-full border border-gray-600 focus:border-[#ff5722] focus:outline-none"
+              onKeyPress={(e) => {
+                if (e.key === 'Enter') {
+                  handleInputSubmit(inputValue);
+                }
+              }}
+              autoFocus
+            />
+            <button
+              onClick={() => handleInputSubmit(inputValue)}
+              className="px-6 py-3 bg-[#ff5722] hover:bg-[#e64a19] text-white rounded-full transition-colors font-medium"
+            >
+              Send
+            </button>
+          </div>
+          {messages[messages.length - 1]?.skipOption && (
+            <button
+              onClick={handleSkip}
+              className="w-full text-center px-4 py-2 text-gray-400 hover:text-white transition-colors text-sm"
+            >
+              Skip this step
+            </button>
+          )}
         </div>
       )}
     </div>

@@ -1,6 +1,6 @@
 import { useState, useRef, useEffect } from "react";
 import { motion } from "framer-motion";
-import { Mail, Phone, MapPin, Linkedin, Instagram, Twitter } from "lucide-react";
+import { Mail, Phone, MapPin, Linkedin, Instagram, Twitter, RotateCcw } from "lucide-react";
 
 const ContactInfo = () => (
   <div className="bg-white text-black rounded-xl p-6 shadow-md space-y-6">
@@ -93,6 +93,26 @@ const ChatBot = () => {
   const [isTyping, setIsTyping] = useState(false);
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const chatContainerRef = useRef<HTMLDivElement>(null);
+
+  const validateEmail = (email: string): boolean => {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return emailRegex.test(email);
+  };
+
+  const resetChat = () => {
+    setMessages([
+      {
+        id: "1",
+        text: "Meow! I'm Coco, A&B's pet cat. I'll guide you.",
+        isBot: true,
+        options: ["Looking for your services", "Just here for fun"]
+      }
+    ]);
+    setCurrentStep("initial");
+    setUserData({});
+    setInputValue("");
+    setIsTyping(false);
+  };
 
   const scrollToBottom = () => {
     setTimeout(() => {
@@ -187,6 +207,20 @@ const ChatBot = () => {
         }
         break;
 
+      case "summary":
+        if (option === "Submit") {
+          botResponse = {
+            id: (Date.now() + 1).toString(),
+            text: "Awesome! Your information has been submitted. Our team will reach out within 24 hours to discuss your project in detail. Meow! 🐱",
+            isBot: true
+          };
+          setCurrentStep("complete");
+        } else {
+          resetChat();
+          return;
+        }
+        break;
+
       default:
         botResponse = {
           id: (Date.now() + 1).toString(),
@@ -199,6 +233,35 @@ const ChatBot = () => {
   };
 
   const handleInputSubmit = (value: string) => {
+    // Email validation - required field
+    if (currentStep === "email") {
+      if (!value.trim()) {
+        const errorMessage: Message = {
+          id: Date.now().toString(),
+          text: "Email is required. Please enter your email address.",
+          isBot: true,
+          inputType: 'email',
+          inputPlaceholder: 'Enter your email (e.g., john@gmail.com)...',
+          skipOption: false
+        };
+        setMessages(prev => [...prev, errorMessage]);
+        return;
+      }
+      if (!validateEmail(value.trim())) {
+        const errorMessage: Message = {
+          id: Date.now().toString(),
+          text: "Please enter a valid email address (e.g., john@gmail.com)",
+          isBot: true,
+          inputType: 'email',
+          inputPlaceholder: 'Enter your email (e.g., john@gmail.com)...',
+          skipOption: false
+        };
+        setMessages(prev => [...prev, errorMessage]);
+        return;
+      }
+    }
+
+    // Check if required field is empty (except for optional phone)
     if (!value.trim() && !messages[messages.length - 1]?.skipOption) return;
 
     const userMessage: Message = {
@@ -216,11 +279,11 @@ const ChatBot = () => {
         setUserData(prev => ({ ...prev, brandName: value.trim() }));
         botResponse = {
           id: (Date.now() + 1).toString(),
-          text: "Great! Now, could you share your email address? (Optional)",
+          text: "Great! Now I need your email address to contact you.",
           isBot: true,
           inputType: 'email',
-          inputPlaceholder: 'Enter your email...',
-          skipOption: true
+          inputPlaceholder: 'Enter your email (e.g., john@gmail.com)...',
+          skipOption: false
         };
         setCurrentStep("email");
         break;
@@ -240,12 +303,24 @@ const ChatBot = () => {
 
       case "phone":
         setUserData(prev => ({ ...prev, phone: value.trim() }));
+        // Show summary before final submission
+        const summaryText = `Perfect! Let me confirm your details:
+
+📝 Service: ${userData.service}
+💰 Budget: ${userData.budget}
+🏢 Brand: ${userData.brandName}
+📧 Email: ${userData.email}
+${value.trim() ? `📞 Phone: ${value.trim()}` : ''}
+
+Is this information correct?`;
+        
         botResponse = {
           id: (Date.now() + 1).toString(),
-          text: "Perfect! I have all the information I need. Our team will reach out within 24 hours to discuss your project in detail. Meow!",
-          isBot: true
+          text: summaryText,
+          isBot: true,
+          options: ["Submit", "Reset & Start Over"]
         };
-        setCurrentStep("complete");
+        setCurrentStep("summary");
         break;
 
       default:

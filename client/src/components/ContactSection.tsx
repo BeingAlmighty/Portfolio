@@ -359,11 +359,20 @@ Is this information correct?`;
 
   return (
     <div className="bg-gray-900 rounded-xl p-6 h-[70vh] flex flex-col">
-      <div className="flex items-center gap-3 mb-4">
-        <div className="w-8 h-8 rounded-full bg-gray-600 flex items-center justify-center">
-          🐱
+      <div className="flex items-center justify-between mb-4">
+        <div className="flex items-center gap-3">
+          <div className="w-8 h-8 rounded-full bg-gray-600 flex items-center justify-center">
+            🐱
+          </div>
+          <h3 className="text-xl font-bold text-white">Chat with Coco</h3>
         </div>
-        <h3 className="text-xl font-bold text-white">Chat with Coco</h3>
+        <button
+          onClick={resetChat}
+          className="p-2 text-gray-400 hover:text-white hover:bg-gray-800 rounded-full transition-colors"
+          title="Reset chat"
+        >
+          <RotateCcw className="w-5 h-5" />
+        </button>
       </div>
       
       <div ref={chatContainerRef} className="flex-1 overflow-y-auto space-y-4 mb-4 pr-2">

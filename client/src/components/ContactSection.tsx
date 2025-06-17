@@ -72,6 +72,7 @@ interface Message {
 
 interface UserData {
   service?: string;
+  goals?: string;
   budget?: string;
   brandName?: string;
   email?: string;
@@ -82,7 +83,7 @@ const ChatBot = () => {
   const [messages, setMessages] = useState<Message[]>([
     {
       id: "1",
-      text: "Meow! I'm Coco, A&B's pet cat. I'll guide you.",
+      text: "Meow! I'm Billu, Solvixx pet cat. I'll guide you.",
       isBot: true,
       options: ["Looking for your services", "Just here for fun"]
     }
@@ -103,7 +104,7 @@ const ChatBot = () => {
     setMessages([
       {
         id: "1",
-        text: "Meow! I'm Coco, A&B's pet cat. I'll guide you.",
+        text: "Meow! I'm Billu, Solvixx pet cat. I'll guide you.",
         isBot: true,
         options: ["Looking for your services", "Just here for fun"]
       }
@@ -150,7 +151,7 @@ const ChatBot = () => {
             id: (Date.now() + 1).toString(),
             text: "Perfect! What's your main goal?",
             isBot: true,
-            options: ["Build a website", "Mobile app development", "Brand identity", "Digital marketing"]
+            options: ["Web Development", "Mobile App Development", "Workflow Automation", "Digital Marketing", "AI Agents"]
           };
           setCurrentStep("services");
         } else {
@@ -168,11 +169,17 @@ const ChatBot = () => {
         setUserData(prev => ({ ...prev, service: option }));
         botResponse = {
           id: (Date.now() + 1).toString(),
-          text: `Great choice! For ${option}, what's your budget range?`,
+          text: `Excellent choice! What are your goals with ${option}? This helps us understand how we can best serve you. 😊`,
           isBot: true,
-          options: ["Under $5,000", "$5,000 - $15,000", "$15,000 - $50,000", "Above $50,000"]
+          inputType: 'text',
+          inputPlaceholder: 'Tell us about your goals...',
+          skipOption: false
         };
-        setCurrentStep("budget");
+        setCurrentStep("goals");
+        break;
+
+      case "goals":
+        // This case is handled by handleInputSubmit, not handleOptionClick
         break;
 
       case "budget":
@@ -194,7 +201,7 @@ const ChatBot = () => {
             id: (Date.now() + 1).toString(),
             text: "We create amazing digital experiences! What interests you most?",
             isBot: true,
-            options: ["Web development", "Mobile apps", "Design services", "All of the above"]
+            options: ["Web Development", "Mobile App Development", "Workflow Automation", "Digital Marketing", "AI Agents"]
           };
           setCurrentStep("services");
         } else {
@@ -275,6 +282,17 @@ const ChatBot = () => {
     let botResponse: Message;
 
     switch (currentStep) {
+      case "goals":
+        setUserData(prev => ({ ...prev, goals: value.trim() }));
+        botResponse = {
+          id: (Date.now() + 1).toString(),
+          text: `Great insights! Now, what's your budget range for this project?`,
+          isBot: true,
+          options: ["Under $5,000", "$5,000 - $15,000", "$15,000 - $50,000", "Above $50,000"]
+        };
+        setCurrentStep("budget");
+        break;
+
       case "brandName":
         setUserData(prev => ({ ...prev, brandName: value.trim() }));
         botResponse = {
@@ -307,10 +325,10 @@ const ChatBot = () => {
         const summaryText = `Perfect! Let me confirm your details:
 
 📝 Service: ${userData.service}
+🎯 Goals: ${userData.goals}
 💰 Budget: ${userData.budget}
 🏢 Brand: ${userData.brandName}
-📧 Email: ${userData.email}
-${value.trim() ? `📞 Phone: ${value.trim()}` : ''}
+📧 Email: ${userData.email}${value.trim() ? `\n📞 Phone: ${value.trim()}` : ''}
 
 Is this information correct?`;
         

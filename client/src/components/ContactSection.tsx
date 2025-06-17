@@ -87,62 +87,79 @@ const ChatBot = () => {
   const [isTyping, setIsTyping] = useState(false);
   const [showInitialMessages, setShowInitialMessages] = useState(false);
   const [hoveredOption, setHoveredOption] = useState<string | null>(null);
+  const [hasInitialized, setHasInitialized] = useState(false);
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const chatContainerRef = useRef<HTMLDivElement>(null);
 
-  // Initialize chat with delayed animations and typing indicators
+  // Initialize chat only when contact section comes into view
   useEffect(() => {
-    const initializeChat = async () => {
-      // Show typing indicator before first message
-      setTimeout(() => {
-        setIsTyping(true);
-      }, 500);
+    const contactSection = document.getElementById('contact');
+    if (!contactSection) return;
 
-      // First message: "Meow!" with delay
-      setTimeout(() => {
-        setIsTyping(false);
-        setMessages([{
-          id: "1",
-          text: "Meow!",
-          isBot: true
-        }]);
-      }, 1500);
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting && !hasInitialized) {
+            setHasInitialized(true);
+            initializeChat();
+          }
+        });
+      },
+      { threshold: 0.3 }
+    );
 
-      // Show typing indicator before second message
-      setTimeout(() => {
-        setIsTyping(true);
-      }, 2000);
+    observer.observe(contactSection);
+    return () => observer.disconnect();
+  }, [hasInitialized]);
 
-      // Second message: "I'm Billu, Solvixx pet cat. I will guide you around." with delay
-      setTimeout(() => {
-        setIsTyping(false);
-        setMessages(prev => [...prev, {
-          id: "2", 
-          text: "I'm Billu, Solvixx pet cat. I will guide you around.",
-          isBot: true
-        }]);
-      }, 3500);
+  const initializeChat = () => {
+    // Show typing indicator before first message
+    setTimeout(() => {
+      setIsTyping(true);
+    }, 500);
 
-      // Show typing indicator before third message
-      setTimeout(() => {
-        setIsTyping(true);
-      }, 4000);
+    // First message: "Meow!" with delay
+    setTimeout(() => {
+      setIsTyping(false);
+      setMessages([{
+        id: "1",
+        text: "Meow!",
+        isBot: true
+      }]);
+    }, 1500);
 
-      // Third message: "What brings you here today?" with options
-      setTimeout(() => {
-        setIsTyping(false);
-        setMessages(prev => [...prev, {
-          id: "3",
-          text: "What brings you here today?",
-          isBot: true,
-          options: ["Looking for your services", "Just here for fun"]
-        }]);
-        setShowInitialMessages(true);
-      }, 5500);
-    };
+    // Show typing indicator before second message
+    setTimeout(() => {
+      setIsTyping(true);
+    }, 2000);
 
-    initializeChat();
-  }, []);
+    // Second message: "I'm Billu, Solvixx pet cat. I will guide you around." with delay
+    setTimeout(() => {
+      setIsTyping(false);
+      setMessages(prev => [...prev, {
+        id: "2", 
+        text: "I'm Billu, Solvixx pet cat. I will guide you around.",
+        isBot: true
+      }]);
+    }, 3500);
+
+    // Show typing indicator before third message
+    setTimeout(() => {
+      setIsTyping(true);
+    }, 4000);
+
+    // Third message: "What brings you here today?" with options
+    setTimeout(() => {
+      setIsTyping(false);
+      setMessages(prev => [...prev, {
+        id: "3",
+        text: "What brings you here today?",
+        isBot: true,
+        options: ["Looking for your services", "Just here for fun"]
+      }]);
+      setShowInitialMessages(true);
+    }, 5500);
+  };
 
   const validateEmail = (email: string): boolean => {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;

@@ -382,7 +382,7 @@ Is this information correct?`;
           <div className="w-8 h-8 rounded-full bg-gray-600 flex items-center justify-center">
             🐱
           </div>
-          <h3 className="text-xl font-bold text-white">Chat with Coco</h3>
+          <h3 className="text-xl font-bold text-white">Chat with Billu</h3>
         </div>
         <button
           onClick={resetChat}

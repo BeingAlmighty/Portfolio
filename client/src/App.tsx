@@ -24,7 +24,7 @@ function App() {
     
     // Clear any hash navigation
     if (window.location.hash) {
-      window.history.replaceState(null, null, window.location.pathname);
+      window.history.replaceState({}, '', window.location.pathname);
     }
   }, []);
 

@@ -56,12 +56,7 @@ const FloatingChatBot = () => {
     return () => observer.disconnect();
   }, []);
 
-  // Initialize chat when opened AND contact section is in view
-  useEffect(() => {
-    if (isOpen && messages.length === 0 && contactSectionInView) {
-      initializeChat();
-    }
-  }, [isOpen, contactSectionInView]);
+  // Don't auto-initialize chat when opened - only on reset
 
   const initializeChat = () => {
     setMessages([]);
@@ -529,14 +524,14 @@ Is this information correct?`;
                           {message.isBot && (
                             <motion.div 
                               className="w-6 h-6 rounded-full bg-gray-600 flex items-center justify-center text-xs flex-shrink-0 mt-1"
-                              initial={{ scale: 0, rotate: -180 }}
-                              animate={{ scale: 1, rotate: 0 }}
-                              transition={{ 
+                              initial={message.id === "1" ? { scale: 0, rotate: -180 } : false}
+                              animate={message.id === "1" ? { scale: 1, rotate: 0 } : {}}
+                              transition={message.id === "1" ? { 
                                 delay: 0.2, 
                                 duration: 0.5,
                                 type: "spring",
                                 stiffness: 200
-                              }}
+                              } : {}}
                             >
                               🐱
                             </motion.div>
@@ -590,6 +585,27 @@ Is this information correct?`;
                     <div className="text-xs text-gray-500 text-left ml-8">
                       Just now
                     </div>
+                  </div>
+                )}
+                
+                {/* Start Chat Button */}
+                {messages.length === 0 && !isTyping && (
+                  <div className="flex flex-col items-center justify-center h-full">
+                    <div className="text-center mb-6">
+                      <div className="w-16 h-16 rounded-full bg-gray-600 flex items-center justify-center text-2xl mb-4 mx-auto">
+                        🐱
+                      </div>
+                      <h3 className="text-white text-lg font-semibold mb-2">Hi! I'm Billu</h3>
+                      <p className="text-gray-400 text-sm">Solvixx's pet cat. I'll help guide you around!</p>
+                    </div>
+                    <motion.button
+                      onClick={initializeChat}
+                      className="px-6 py-3 bg-[#ff5722] hover:bg-[#e64a19] text-white rounded-full font-medium transition-colors"
+                      whileHover={{ scale: 1.05 }}
+                      whileTap={{ scale: 0.95 }}
+                    >
+                      Start Chat
+                    </motion.button>
                   </div>
                 )}
                 

@@ -9,6 +9,7 @@ import Services from "./components/Services";
 import Projects from "./components/Projects";
 import ContactSection from "./components/ContactSection";
 import Footer from "./components/Footer";
+import FloatingChatBot from "./components/FloatingChatBot";
 
 function App() {
   return (
@@ -31,6 +32,7 @@ function App() {
             <Footer />
           </ReactLenis>
         </div>
+        <FloatingChatBot />
         <Toaster />
       </TooltipProvider>
     </QueryClientProvider>

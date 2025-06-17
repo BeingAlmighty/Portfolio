@@ -45,7 +45,12 @@ export default function Navbar() {
     const observer = new IntersectionObserver((entries) => {
       entries.forEach(entry => {
         if (entry.isIntersecting) {
-          setActiveSection(entry.target.id);
+          // Prevent initial auto-scroll by checking if page has been scrolled
+          if (window.scrollY > 50) {
+            setActiveSection(entry.target.id);
+          } else if (entry.target.id === 'home') {
+            setActiveSection('home');
+          }
         }
       });
     }, observerOptions);

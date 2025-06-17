@@ -71,29 +71,29 @@ const ParallaxImages = () => {
       <ParallaxImg
         src="https://images.unsplash.com/photo-1558655146-d09347e92766?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&h=800"
         alt="Web development workspace"
-        start={-50}
-        end={50}
+        start={-200}
+        end={200}
         className="w-full max-w-sm sm:max-w-md md:max-w-lg lg:max-w-xl xl:max-w-2xl rounded-lg sm:rounded-xl mb-6 sm:mb-8 md:mb-12"
       />
       <ParallaxImg
         src="https://images.unsplash.com/photo-1581291518857-4e27b48ff24e?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&h=800"
         alt="UI/UX design process"
-        start={80}
-        end={-100}
+        start={200}
+        end={-300}
         className="mx-auto w-full max-w-md sm:max-w-lg md:max-w-xl lg:max-w-2xl xl:max-w-3xl rounded-lg sm:rounded-xl mb-6 sm:mb-8 md:mb-12"
       />
       <ParallaxImg
         src="https://images.unsplash.com/photo-1559028006-448665bd7c7f?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&h=800"
         alt="Digital marketing analytics"
-        start={-60}
-        end={80}
+        start={-150}
+        end={250}
         className="ml-auto w-full max-w-sm sm:max-w-md md:max-w-lg lg:max-w-xl xl:max-w-2xl rounded-lg sm:rounded-xl mb-6 sm:mb-8 md:mb-12"
       />
       <ParallaxImg
         src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&h=800"
         alt="Team collaboration"
         start={0}
-        end={-150}
+        end={-400}
         className="ml-0 sm:ml-8 md:ml-12 lg:ml-16 xl:ml-24 w-full max-w-md sm:max-w-lg md:max-w-xl lg:max-w-2xl rounded-lg sm:rounded-xl"
       />
     </div>

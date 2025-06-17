@@ -112,6 +112,9 @@ Preferred communication style: Simple, everyday language.
   - Removed About section from footer quick links
   - Updated button styling with overflow hidden circular animation effect
   - Fixed import structure in FloatingChatBot component
+  - Added animated social media icons in contact section with tooltip hover effects
+  - Restored proper parallax scroll effects for desktop viewing with increased movement ranges
+  - Implemented bounce animation with cubic-bezier transitions for social icons
 
 - June 16, 2025: Enhanced responsive design and mobile navbar highlighting
   - Implemented responsive navbar with mobile hamburger menu

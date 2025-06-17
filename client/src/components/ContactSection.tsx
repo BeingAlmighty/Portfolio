@@ -28,33 +28,33 @@ const ContactInfo = () => (
     
     <div className="pt-4 border-t border-gray-200">
       <h3 className="text-lg font-semibold mb-3">Follow Us</h3>
-      <div className="flex space-x-4">
+      <div className="social-wrapper">
         <a 
           href="https://linkedin.com" 
           target="_blank" 
           rel="noopener noreferrer"
-          className="flex items-center gap-2 text-blue-600 hover:text-blue-800 transition-colors"
+          className="social-icon linkedin"
         >
           <Linkedin className="w-5 h-5" />
-          LinkedIn
+          <span className="social-tooltip">LinkedIn</span>
         </a>
         <a 
           href="https://instagram.com" 
           target="_blank" 
           rel="noopener noreferrer"
-          className="flex items-center gap-2 text-pink-600 hover:text-pink-800 transition-colors"
+          className="social-icon instagram"
         >
           <Instagram className="w-5 h-5" />
-          Instagram
+          <span className="social-tooltip">Instagram</span>
         </a>
         <a 
           href="https://twitter.com" 
           target="_blank" 
           rel="noopener noreferrer"
-          className="flex items-center gap-2 text-blue-400 hover:text-blue-600 transition-colors"
+          className="social-icon twitter"
         >
           <Twitter className="w-5 h-5" />
-          Twitter
+          <span className="social-tooltip">Twitter</span>
         </a>
       </div>
     </div>

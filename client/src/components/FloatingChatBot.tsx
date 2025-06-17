@@ -1,7 +1,7 @@
 import { useState, useRef, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { X, RotateCcw } from "lucide-react";
-import catImage from "@assets/cat.jpeg";
+import catImage from "@/assets/cat.jpg";
 
 interface Message {
   id: string;
@@ -383,7 +383,7 @@ Is this information correct?`;
     <div className="flex justify-start mb-1">
       <div className="flex items-start gap-2 max-w-xs">
         <div className="w-6 h-6 rounded-full bg-gray-600 flex items-center justify-center text-xs flex-shrink-0 mt-1 overflow-hidden">
-          <img src={catImage} alt="Cat" className="w-full h-full object-cover" />
+          <img src={catImage} alt="Cat" className="w-full h-full object-cover rounded-full" />
         </div>
         <div className="bg-gray-700 text-white px-4 py-3 rounded-2xl rounded-bl-md">
           <div className="flex space-x-1">
@@ -414,7 +414,7 @@ Is this information correct?`;
             }}
             transition={{ delay: 1, type: "spring", stiffness: 200 }}
           >
-            <img src={catImage} alt="Cat" className="w-8 h-8 rounded-full object-cover" />
+            <img src={catImage} alt="Cat" className="w-12 h-12 rounded-full object-cover" />
           </motion.button>
         )}
       </AnimatePresence>
@@ -467,7 +467,7 @@ Is this information correct?`;
               <div className="flex items-center justify-between p-4 border-b border-gray-700">
                 <div className="flex items-center gap-3">
                   <div className="w-8 h-8 rounded-full bg-gray-600 flex items-center justify-center overflow-hidden">
-                    <img src={catImage} alt="Cat" className="w-full h-full object-cover" />
+                    <img src={catImage} alt="Cat" className="w-full h-full object-cover rounded-full" />
                   </div>
                   <h3 className="text-lg font-bold text-white">Chat with Billu</h3>
                 </div>
@@ -522,7 +522,7 @@ Is this information correct?`;
                         <div className="flex items-start gap-2 max-w-xs">
                           {message.isBot && (
                             <motion.div 
-                              className="w-6 h-6 rounded-full bg-gray-600 flex items-center justify-center text-xs flex-shrink-0 mt-1"
+                              className="w-6 h-6 rounded-full bg-gray-600 flex items-center justify-center text-xs flex-shrink-0 mt-1 overflow-hidden"
                               initial={message.id === "1" ? { scale: 0, rotate: -180 } : false}
                               animate={message.id === "1" ? { scale: 1, rotate: 0 } : {}}
                               transition={message.id === "1" ? { 
@@ -532,7 +532,7 @@ Is this information correct?`;
                                 stiffness: 200
                               } : {}}
                             >
-                              <img src={catImage} alt="Cat" className="w-full h-full object-cover" />
+                              <img src={catImage} alt="Cat" className="w-full h-full object-cover rounded-full" />
                             </motion.div>
                           )}
                           <motion.div
@@ -592,7 +592,7 @@ Is this information correct?`;
                   <div className="flex flex-col items-center justify-center h-full">
                     <div className="text-center mb-6">
                       <div className="w-16 h-16 rounded-full bg-gray-600 flex items-center justify-center text-2xl mb-4 mx-auto overflow-hidden">
-                        <img src={catImage} alt="Cat" className="w-full h-full object-cover" />
+                        <img src={catImage} alt="Cat" className="w-full h-full object-cover rounded-full" />
                       </div>
                       <h3 className="text-white text-lg font-semibold mb-2">Hi! I'm Billu</h3>
                       <p className="text-gray-400 text-sm">Solvixx's pet cat. I'll help guide you around!</p>

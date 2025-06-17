@@ -1,18 +1,15 @@
 import { motion, useMotionTemplate, useScroll, useTransform } from 'framer-motion';
 import { useRef } from 'react';
 
-const SECTION_HEIGHT = 1500;
-
 export default function Hero() {
   return (
     <div
-      style={{ height: `calc(${SECTION_HEIGHT}px + 100vh)` }}
-      className="relative w-full"
+      className="relative w-full hero-responsive-height"
       id="home"
     >
       <SimpleHero />
       <ParallaxImages />
-      <div className="absolute bottom-0 left-0 right-0 h-96 bg-gradient-to-b from-black/0 to-black" />
+      <div className="absolute bottom-0 left-0 right-0 h-32 sm:h-48 md:h-64 lg:h-96 bg-gradient-to-b from-black/0 to-black" />
     </div>
   );
 }
@@ -67,34 +64,34 @@ const SimpleHero = () => {
 
 const ParallaxImages = () => {
   return (
-    <div className="mx-auto max-w-5xl px-4 pt-[120px] sm:pt-[150px] md:pt-[200px]">
+    <div className="mx-auto max-w-5xl px-4 pt-[60px] sm:pt-[100px] md:pt-[150px] lg:pt-[200px] pb-[40px] sm:pb-[80px] md:pb-[120px] lg:pb-[160px] will-change-transform">
       <ParallaxImg
         src="https://images.unsplash.com/photo-1558655146-d09347e92766?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&h=800"
         alt="Web development workspace"
-        start={-200}
-        end={200}
-        className="w-full sm:w-2/3 md:w-1/2 lg:w-1/3 rounded-lg md:rounded-xl mb-6 md:mb-8"
+        start={-100}
+        end={100}
+        className="w-full sm:w-2/3 md:w-1/2 lg:w-1/3 rounded-lg md:rounded-xl mb-3 sm:mb-5 md:mb-6 lg:mb-8 mx-auto sm:mx-0 h-48 sm:h-56 md:h-64 lg:h-auto"
       />
       <ParallaxImg
         src="https://images.unsplash.com/photo-1581291518857-4e27b48ff24e?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&h=800"
         alt="UI/UX design process"
-        start={200}
-        end={-250}
-        className="mx-auto w-full sm:w-4/5 md:w-3/4 lg:w-2/3 rounded-lg md:rounded-xl mb-6 md:mb-8"
+        start={150}
+        end={-150}
+        className="mx-auto w-full sm:w-4/5 md:w-3/4 lg:w-2/3 rounded-lg md:rounded-xl mb-3 sm:mb-5 md:mb-6 lg:mb-8 h-48 sm:h-56 md:h-64 lg:h-auto"
       />
       <ParallaxImg
         src="https://images.unsplash.com/photo-1559028006-448665bd7c7f?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&h=800"
         alt="Digital marketing analytics"
-        start={-200}
-        end={200}
-        className="ml-auto w-full sm:w-2/3 md:w-1/2 lg:w-1/3 rounded-lg md:rounded-xl mb-6 md:mb-8"
+        start={-100}
+        end={100}
+        className="w-full sm:w-2/3 md:w-1/2 lg:w-1/3 rounded-lg md:rounded-xl mb-3 sm:mb-5 md:mb-6 lg:mb-8 mx-auto sm:ml-auto h-48 sm:h-56 md:h-64 lg:h-auto"
       />
       <ParallaxImg
         src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&h=800"
         alt="Team collaboration"
         start={0}
-        end={-500}
-        className="ml-0 sm:ml-8 md:ml-16 lg:ml-24 w-full sm:w-3/4 md:w-2/3 lg:w-5/12 rounded-lg md:rounded-xl"
+        end={-300}
+        className="w-full sm:w-3/4 md:w-2/3 lg:w-5/12 rounded-lg md:rounded-xl mx-auto sm:ml-8 md:ml-16 lg:ml-24 h-48 sm:h-56 md:h-64 lg:h-auto"
       />
     </div>
   );
@@ -112,21 +109,49 @@ const ParallaxImg = ({ className, alt, src, start, end }: {
   const { scrollYProgress } = useScroll({
     target: ref,
     offset: [`${start}px end`, `end ${end * -1}px`],
+    layoutEffect: false, // Improves performance
   });
 
-  const opacity = useTransform(scrollYProgress, [0.75, 1], [1, 0]);
-  const scale = useTransform(scrollYProgress, [0.75, 1], [1, 0.85]);
+  // Smoother opacity transition with easing
+  const opacity = useTransform(
+    scrollYProgress, 
+    [0.7, 0.95], 
+    [1, 0]
+  );
+  
+  // Smoother scale transition
+  const scale = useTransform(
+    scrollYProgress, 
+    [0.7, 1], 
+    [1, 0.9]
+  );
 
-  const y = useTransform(scrollYProgress, [0, 1], [start, end]);
-  const transform = useMotionTemplate`translateY(${y}px) scale(${scale})`;
+  // Smoother Y translation
+  const y = useTransform(
+    scrollYProgress, 
+    [0, 1], 
+    [start, end]
+  );
 
   return (
     <motion.img
       src={src}
       alt={alt}
-      className={className}
+      className={`${className} object-cover will-change-transform`}
       ref={ref}
-      style={{ transform, opacity }}
+      style={{ 
+        y,
+        scale,
+        opacity,
+        transformStyle: 'preserve-3d',
+        backfaceVisibility: 'hidden'
+      }}
+      transition={{ 
+        type: "spring", 
+        stiffness: 100, 
+        damping: 30,
+        mass: 1
+      }}
     />
   );
 };

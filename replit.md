@@ -106,7 +106,7 @@ Preferred communication style: Simple, everyday language.
 - June 17, 2025: Updated website design and removed case studies
   - Made parallax images in Hero section fully responsive with optimized sizing and spacing for all devices
   - Removed case studies section from navbar and footer navigation
-  - Replaced all cat emoji (🐱) usage with custom cat.jpeg SVG image in both FloatingChatBot and ContactSection
+  - Replaced all cat emoji (🐱) usage with custom cat.jpg SVG image in both FloatingChatBot and ContactSection
   - Implemented custom "Get Started" button animation with orange/white color scheme (bubble effect)
   - Enhanced parallax image responsiveness with better max-width constraints and improved image quality
   - Removed About section from footer quick links

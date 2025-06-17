@@ -90,6 +90,7 @@ const ChatBot = () => {
   const [currentStep, setCurrentStep] = useState("initial");
   const [userData, setUserData] = useState<UserData>({});
   const [inputValue, setInputValue] = useState("");
+  const [isTyping, setIsTyping] = useState(false);
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const chatContainerRef = useRef<HTMLDivElement>(null);
 
@@ -103,12 +104,22 @@ const ChatBot = () => {
     scrollToBottom();
   }, [messages]);
 
+  const addBotMessageWithDelay = (botResponse: Message) => {
+    setIsTyping(true);
+    setTimeout(() => {
+      setIsTyping(false);
+      setMessages(prev => [...prev, botResponse]);
+    }, 1500 + Math.random() * 1000); // 1.5-2.5 seconds delay
+  };
+
   const handleOptionClick = (option: string) => {
     const userMessage: Message = {
       id: Date.now().toString(),
       text: option,
       isBot: false
     };
+
+    setMessages(prev => [...prev, userMessage]);
 
     let botResponse: Message;
 
@@ -184,7 +195,7 @@ const ChatBot = () => {
         };
     }
 
-    setMessages(prev => [...prev, userMessage, botResponse]);
+    addBotMessageWithDelay(botResponse);
   };
 
   const handleInputSubmit = (value: string) => {
@@ -195,6 +206,8 @@ const ChatBot = () => {
       text: value.trim() || "Skipped",
       isBot: false
     };
+
+    setMessages(prev => [...prev, userMessage]);
 
     let botResponse: Message;
 
@@ -243,7 +256,7 @@ const ChatBot = () => {
         };
     }
 
-    setMessages(prev => [...prev, userMessage, botResponse]);
+    addBotMessageWithDelay(botResponse);
     setInputValue("");
   };
 
@@ -251,8 +264,26 @@ const ChatBot = () => {
     handleInputSubmit("");
   };
 
+  // Typing indicator component
+  const TypingIndicator = () => (
+    <div className="flex justify-start mb-1">
+      <div className="flex items-start gap-2 max-w-xs">
+        <div className="w-6 h-6 rounded-full bg-gray-600 flex items-center justify-center text-xs flex-shrink-0 mt-1">
+          🐱
+        </div>
+        <div className="bg-gray-700 text-white px-4 py-3 rounded-2xl rounded-bl-md">
+          <div className="flex space-x-1">
+            <div className="w-2 h-2 bg-gray-400 rounded-full animate-bounce"></div>
+            <div className="w-2 h-2 bg-gray-400 rounded-full animate-bounce" style={{animationDelay: '0.1s'}}></div>
+            <div className="w-2 h-2 bg-gray-400 rounded-full animate-bounce" style={{animationDelay: '0.2s'}}></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+
   return (
-    <div className="bg-gray-900 rounded-xl p-6 h-96 flex flex-col">
+    <div className="bg-gray-900 rounded-xl p-6 h-[70vh] flex flex-col">
       <div className="flex items-center gap-3 mb-4">
         <div className="w-8 h-8 rounded-full bg-gray-600 flex items-center justify-center">
           🐱
@@ -260,43 +291,54 @@ const ChatBot = () => {
         <h3 className="text-xl font-bold text-white">Chat with Coco</h3>
       </div>
       
-      <div ref={chatContainerRef} className="flex-1 overflow-y-auto space-y-3 mb-4 pr-2">
+      <div ref={chatContainerRef} className="flex-1 overflow-y-auto space-y-4 mb-4 pr-2">
         {messages.map((message) => (
-          <div key={message.id}>
-            <div className={`flex ${message.isBot ? "justify-start" : "justify-end"} mb-1`}>
-              <div className="flex items-start gap-2 max-w-xs">
+          <div key={message.id} className="space-y-1">
+            <div className={`flex ${message.isBot ? "justify-start" : "justify-end"}`}>
+              <div className="flex items-start gap-3 max-w-sm">
                 {message.isBot && (
-                  <div className="w-6 h-6 rounded-full bg-gray-600 flex items-center justify-center text-xs flex-shrink-0 mt-1">
+                  <div className="w-8 h-8 rounded-full bg-gray-600 flex items-center justify-center text-sm flex-shrink-0 mt-1">
                     🐱
                   </div>
                 )}
                 <div
-                  className={`px-4 py-3 rounded-2xl ${
+                  className={`px-5 py-3 rounded-2xl ${
                     message.isBot
                       ? "bg-gray-700 text-white rounded-bl-md"
-                      : "bg-[#ff5722] text-white rounded-br-md"
-                  }`}
+                      : "bg-black text-white rounded-br-md"
+                  } max-w-full break-words`}
                 >
                   {message.text}
                 </div>
               </div>
             </div>
-            <div className={`text-xs text-gray-500 ${message.isBot ? "text-left ml-8" : "text-right"}`}>
+            <div className={`text-xs text-gray-500 ${message.isBot ? "text-left ml-11" : "text-right"}`}>
               Just now
             </div>
           </div>
         ))}
+        
+        {/* Typing Indicator */}
+        {isTyping && (
+          <div className="space-y-1">
+            <TypingIndicator />
+            <div className="text-xs text-gray-500 text-left ml-11">
+              Just now
+            </div>
+          </div>
+        )}
+        
         <div ref={messagesEndRef} />
       </div>
 
       {/* Options */}
-      {messages[messages.length - 1]?.options && (
-        <div className="space-y-2">
+      {!isTyping && messages[messages.length - 1]?.options && (
+        <div className="space-y-3">
           {messages[messages.length - 1].options!.map((option, index) => (
             <button
               key={index}
               onClick={() => handleOptionClick(option)}
-              className="w-full text-left px-4 py-3 bg-gray-800 hover:bg-gray-700 text-white rounded-full transition-colors text-sm border border-gray-600 hover:border-gray-500"
+              className="w-full text-left px-5 py-3 bg-gray-800 hover:bg-gray-700 text-white rounded-full transition-colors text-sm border border-gray-600 hover:border-gray-500"
             >
               {option}
             </button>
@@ -305,15 +347,15 @@ const ChatBot = () => {
       )}
 
       {/* Input Field */}
-      {messages[messages.length - 1]?.inputType && (
-        <div className="space-y-2">
+      {!isTyping && messages[messages.length - 1]?.inputType && (
+        <div className="space-y-3">
           <div className="flex gap-2">
             <input
               type={messages[messages.length - 1].inputType}
               value={inputValue}
               onChange={(e) => setInputValue(e.target.value)}
               placeholder={messages[messages.length - 1].inputPlaceholder}
-              className="flex-1 px-4 py-3 bg-gray-800 text-white rounded-full border border-gray-600 focus:border-[#ff5722] focus:outline-none"
+              className="flex-1 px-5 py-3 bg-gray-800 text-white rounded-full border border-gray-600 focus:border-[#ff5722] focus:outline-none text-sm"
               onKeyPress={(e) => {
                 if (e.key === 'Enter') {
                   handleInputSubmit(inputValue);
@@ -323,7 +365,7 @@ const ChatBot = () => {
             />
             <button
               onClick={() => handleInputSubmit(inputValue)}
-              className="px-6 py-3 bg-[#ff5722] hover:bg-[#e64a19] text-white rounded-full transition-colors font-medium"
+              className="px-6 py-3 bg-[#ff5722] hover:bg-[#e64a19] text-white rounded-full transition-colors font-medium text-sm"
             >
               Send
             </button>

@@ -115,6 +115,8 @@ Preferred communication style: Simple, everyday language.
   - Added animated social media icons in contact section with tooltip hover effects
   - Restored proper parallax scroll effects for desktop viewing with increased movement ranges
   - Implemented bounce animation with cubic-bezier transitions for social icons
+  - Updated parallax images to use proper responsive structure with correct layout positioning
+  - Fixed parallax image sizing to work consistently across all device breakpoints
 
 - June 16, 2025: Enhanced responsive design and mobile navbar highlighting
   - Implemented responsive navbar with mobile hamburger menu

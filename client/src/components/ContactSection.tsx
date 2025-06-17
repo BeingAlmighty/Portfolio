@@ -1,6 +1,7 @@
 import { useState, useRef, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Mail, Phone, MapPin, Linkedin, Instagram, Twitter, RotateCcw } from "lucide-react";
+import catImage from "@assets/cat.jpeg";
 
 const ContactInfo = () => (
   <div className="bg-white text-black rounded-xl p-6 shadow-md space-y-6">
@@ -480,8 +481,8 @@ Is this information correct?`;
   const TypingIndicator = () => (
     <div className="flex justify-start mb-1">
       <div className="flex items-start gap-2 max-w-xs">
-        <div className="w-6 h-6 rounded-full bg-gray-600 flex items-center justify-center text-xs flex-shrink-0 mt-1">
-          🐱
+        <div className="w-6 h-6 rounded-full bg-gray-600 flex items-center justify-center text-xs flex-shrink-0 mt-1 overflow-hidden">
+          <img src={catImage} alt="Cat" className="w-full h-full object-cover" />
         </div>
         <div className="bg-gray-700 text-white px-4 py-3 rounded-2xl rounded-bl-md">
           <div className="flex space-x-1">
@@ -498,8 +499,8 @@ Is this information correct?`;
     <div className="bg-gray-900 rounded-xl p-6 h-[70vh] flex flex-col">
       <div className="flex items-center justify-between mb-4">
         <div className="flex items-center gap-3">
-          <div className="w-8 h-8 rounded-full bg-gray-600 flex items-center justify-center">
-            🐱
+          <div className="w-8 h-8 rounded-full bg-gray-600 flex items-center justify-center overflow-hidden">
+            <img src={catImage} alt="Cat" className="w-full h-full object-cover" />
           </div>
           <h3 className="text-xl font-bold text-white">Chat with Billu</h3>
         </div>
@@ -557,7 +558,7 @@ Is this information correct?`;
                         stiffness: 200
                       } : {}}
                     >
-                      🐱
+                      <img src={catImage} alt="Cat" className="w-full h-full object-cover" />
                     </motion.div>
                   )}
                   <motion.div

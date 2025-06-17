@@ -1,8 +1,7 @@
-import { useState } from "react";
+import { useState, useRef, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { X } from "lucide-react";
-import { useState as useStateChat, useRef, useEffect } from "react";
-import { RotateCcw } from "lucide-react";
+import { X, RotateCcw } from "lucide-react";
+import catImage from "@assets/cat.jpeg";
 
 interface Message {
   id: string;
@@ -25,14 +24,14 @@ interface UserData {
 
 const FloatingChatBot = () => {
   const [isOpen, setIsOpen] = useState(false);
-  const [messages, setMessages] = useStateChat<Message[]>([]);
-  const [currentStep, setCurrentStep] = useStateChat("initial");
-  const [userData, setUserData] = useStateChat<UserData>({});
-  const [inputValue, setInputValue] = useStateChat("");
-  const [isTyping, setIsTyping] = useStateChat(false);
-  const [showInitialMessages, setShowInitialMessages] = useStateChat(false);
-  const [hoveredOption, setHoveredOption] = useStateChat<string | null>(null);
-  const [contactSectionInView, setContactSectionInView] = useStateChat(false);
+  const [messages, setMessages] = useState<Message[]>([]);
+  const [currentStep, setCurrentStep] = useState("initial");
+  const [userData, setUserData] = useState<UserData>({});
+  const [inputValue, setInputValue] = useState("");
+  const [isTyping, setIsTyping] = useState(false);
+  const [showInitialMessages, setShowInitialMessages] = useState(false);
+  const [hoveredOption, setHoveredOption] = useState<string | null>(null);
+  const [contactSectionInView, setContactSectionInView] = useState(false);
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const chatContainerRef = useRef<HTMLDivElement>(null);
 

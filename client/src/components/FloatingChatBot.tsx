@@ -148,7 +148,7 @@ const FloatingChatBot = () => {
             id: (Date.now() + 1).toString(),
             text: "Perfect! What's your main goal?",
             isBot: true,
-            options: ["Web Development", "Mobile App Development", "Workflow Automation", "Digital Marketing", "AI Agents"]
+            options: ["Web Development", "Workflow Automation", "Digital Marketing", "AI Agents"]
           };
           setCurrentStep("services");
         } else {
@@ -194,7 +194,7 @@ const FloatingChatBot = () => {
             id: (Date.now() + 1).toString(),
             text: "We create amazing digital experiences! What interests you most?",
             isBot: true,
-            options: ["Web Development", "Mobile App Development", "Workflow Automation", "Digital Marketing", "AI Agents"]
+            options: ["Web Development", "Workflow Automation", "Digital Marketing", "AI Agents"]
           };
           setCurrentStep("services");
         } else {
@@ -377,17 +377,25 @@ Is this information correct?`;
   return (
     <>
       {/* Floating Chat Icon */}
-      <motion.button
-        onClick={() => setIsOpen(true)}
-        className="fixed bottom-6 right-6 w-16 h-16 bg-[#ff5722] hover:bg-[#e64a19] rounded-full shadow-lg flex items-center justify-center text-2xl z-50 transition-colors"
-        whileHover={{ scale: 1.1 }}
-        whileTap={{ scale: 0.9 }}
-        initial={{ scale: 0 }}
-        animate={{ scale: 1 }}
-        transition={{ delay: 1, type: "spring", stiffness: 200 }}
-      >
-        🐱
-      </motion.button>
+      <AnimatePresence>
+        {!isOpen && (
+          <motion.button
+            onClick={() => setIsOpen(true)}
+            className="fixed bottom-6 right-6 w-16 h-16 bg-[#ff5722] hover:bg-[#e64a19] rounded-full shadow-lg flex items-center justify-center text-2xl z-50 transition-colors"
+            whileHover={{ scale: 1.1 }}
+            whileTap={{ scale: 0.9 }}
+            initial={{ scale: 0 }}
+            animate={{ scale: 1 }}
+            exit={{ 
+              scale: 0,
+              transition: { duration: 0.3, ease: "easeInOut" }
+            }}
+            transition={{ delay: 1, type: "spring", stiffness: 200 }}
+          >
+            🐱
+          </motion.button>
+        )}
+      </AnimatePresence>
 
       {/* Chat Modal Overlay */}
       <AnimatePresence>
@@ -402,11 +410,35 @@ Is this information correct?`;
               onClick={() => setIsOpen(false)}
             />
 
-            {/* Chat Modal */}
+            {/* Chat Modal - MacOS Genie Effect */}
             <motion.div
-              initial={{ opacity: 0, scale: 0.8, y: 100 }}
-              animate={{ opacity: 1, scale: 1, y: 0 }}
-              exit={{ opacity: 0, scale: 0.8, y: 100 }}
+              initial={{ 
+                opacity: 0, 
+                scale: 0.2, 
+                y: 150,
+                originX: 1,
+                originY: 1
+              }}
+              animate={{ 
+                opacity: 1, 
+                scale: 1, 
+                y: 0,
+                transition: { 
+                  type: "spring", 
+                  stiffness: 100, 
+                  damping: 15,
+                  duration: 0.6
+                }
+              }}
+              exit={{ 
+                opacity: 0, 
+                scale: 0.3, 
+                y: 150,
+                transition: { 
+                  duration: 0.4, 
+                  ease: "easeInOut" 
+                }
+              }}
               className="fixed bottom-6 right-6 w-96 h-[500px] bg-gray-900 rounded-xl shadow-2xl z-50 flex flex-col"
               style={{ maxWidth: "calc(100vw - 3rem)" }}
             >

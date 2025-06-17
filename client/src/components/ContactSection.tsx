@@ -1,5 +1,5 @@
 import { useState, useRef, useEffect } from "react";
-import { motion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 import { Mail, Phone, MapPin, Linkedin, Instagram, Twitter, RotateCcw } from "lucide-react";
 
 const ContactInfo = () => (
@@ -80,20 +80,51 @@ interface UserData {
 }
 
 const ChatBot = () => {
-  const [messages, setMessages] = useState<Message[]>([
-    {
-      id: "1",
-      text: "Meow! I'm Billu, Solvixx pet cat. I'll guide you.",
-      isBot: true,
-      options: ["Looking for your services", "Just here for fun"]
-    }
-  ]);
+  const [messages, setMessages] = useState<Message[]>([]);
   const [currentStep, setCurrentStep] = useState("initial");
   const [userData, setUserData] = useState<UserData>({});
   const [inputValue, setInputValue] = useState("");
   const [isTyping, setIsTyping] = useState(false);
+  const [showInitialMessages, setShowInitialMessages] = useState(false);
+  const [hoveredOption, setHoveredOption] = useState<string | null>(null);
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const chatContainerRef = useRef<HTMLDivElement>(null);
+
+  // Initialize chat with delayed animations
+  useEffect(() => {
+    const initializeChat = async () => {
+      // First message: "Meow!" with delay
+      setTimeout(() => {
+        setMessages([{
+          id: "1",
+          text: "Meow!",
+          isBot: true
+        }]);
+      }, 800);
+
+      // Second message: "I'm Billu, Solvixx pet cat. I'll guide you around." with delay
+      setTimeout(() => {
+        setMessages(prev => [...prev, {
+          id: "2", 
+          text: "I am Coco, A&B's pet cat. I will guide you around.",
+          isBot: true
+        }]);
+      }, 2200);
+
+      // Third message: "What brings you here today?" with options
+      setTimeout(() => {
+        setMessages(prev => [...prev, {
+          id: "3",
+          text: "What brings you here today?",
+          isBot: true,
+          options: ["Looking for your services", "Just here for fun"]
+        }]);
+        setShowInitialMessages(true);
+      }, 3600);
+    };
+
+    initializeChat();
+  }, []);
 
   const validateEmail = (email: string): boolean => {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -101,18 +132,40 @@ const ChatBot = () => {
   };
 
   const resetChat = () => {
-    setMessages([
-      {
-        id: "1",
-        text: "Meow! I'm Billu, Solvixx pet cat. I'll guide you.",
-        isBot: true,
-        options: ["Looking for your services", "Just here for fun"]
-      }
-    ]);
+    setMessages([]);
     setCurrentStep("initial");
     setUserData({});
     setInputValue("");
     setIsTyping(false);
+    setShowInitialMessages(false);
+    setHoveredOption(null);
+    
+    // Reinitialize chat with delayed animations
+    setTimeout(() => {
+      setMessages([{
+        id: "1",
+        text: "Meow!",
+        isBot: true
+      }]);
+    }, 800);
+
+    setTimeout(() => {
+      setMessages(prev => [...prev, {
+        id: "2", 
+        text: "I am Coco, A&B's pet cat. I will guide you around.",
+        isBot: true
+      }]);
+    }, 2200);
+
+    setTimeout(() => {
+      setMessages(prev => [...prev, {
+        id: "3",
+        text: "What brings you here today?",
+        isBot: true,
+        options: ["Looking for your services", "Just here for fun"]
+      }]);
+      setShowInitialMessages(true);
+    }, 3600);
   };
 
   const scrollToBottom = () => {
@@ -142,7 +195,11 @@ const ChatBot = () => {
 
     setMessages(prev => [...prev, userMessage]);
 
-    let botResponse: Message;
+    let botResponse: Message = {
+      id: (Date.now() + 1).toString(),
+      text: "Thanks for chatting! Feel free to contact us anytime.",
+      isBot: true
+    };
 
     switch (currentStep) {
       case "initial":
@@ -234,6 +291,7 @@ const ChatBot = () => {
           text: "Thanks for chatting! Feel free to contact us anytime.",
           isBot: true
         };
+        break;
     }
 
     addBotMessageWithDelay(botResponse);
@@ -279,7 +337,11 @@ const ChatBot = () => {
 
     setMessages(prev => [...prev, userMessage]);
 
-    let botResponse: Message;
+    let botResponse: Message = {
+      id: (Date.now() + 1).toString(),
+      text: "Thanks for chatting! Feel free to contact us anytime.",
+      isBot: true
+    };
 
     switch (currentStep) {
       case "goals":

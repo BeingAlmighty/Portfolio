@@ -95,21 +95,21 @@
 
 /* Responsive hero heights for different devices */
 .hero-responsive-height {
-  /* Mobile: Reduced height to minimize gap */
-  height: calc(800px + 100vh);
+  /* Mobile: Accommodate content and images */
+  height: calc(100vh + 400px);
 }
 
-/* Tablet: Medium height */
+/* Tablet: More space for parallax effect */
 @media (min-width: 640px) and (max-width: 1023px) {
   .hero-responsive-height {
-    height: calc(1100px + 100vh);
+    height: calc(100vh + 600px);
   }
 }
 
-/* Desktop: Original height */
+/* Desktop: Full parallax experience */
 @media (min-width: 1024px) {
   .hero-responsive-height {
-    height: calc(1500px + 100vh);
+    height: calc(100vh + 800px);
   }
 }
 
@@ -314,14 +314,17 @@
   width: 100%;
   max-width: 280px;
   height: 300px;
-  background-color: #f5f5f5;
-  box-shadow: 1px 1px 12px rgba(0, 0, 0, 0.3);
+  background: linear-gradient(135deg, #2d2d2d 0%, #1e1e1e 100%);
+  box-shadow: 
+    0 10px 30px rgba(0, 0, 0, 0.4),
+    0 5px 15px rgba(0, 0, 0, 0.2);
   transform: preserve-3d;
   perspective: 2000px;
   display: flex;
   align-items: center;
   justify-content: center;
   color: #000;
+  border: 1px solid rgba(255, 255, 255, 0.1);
 }
 
 @media (min-width: 640px) {
@@ -338,23 +341,29 @@
   text-align: center;
   padding: 2rem;
   height: 100%;
+  background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+  border-radius: 10px;
+  border: 1px solid rgba(0, 0, 0, 0.1);
 }
 
 .cover {
   top: 0;
   position: absolute;
-  background: linear-gradient(135deg, #1e1e1e 0%, #2d2d2d 100%);
+  background: linear-gradient(135deg, #1e1e1e 0%, #2d2d2d 50%, #1a1a1a 100%);
   width: 100%;
   height: 100%;
   border-radius: 10px;
   cursor: pointer;
-  transition: all 0.5s ease-in-out;
+  transition: all 0.7s cubic-bezier(0.25, 0.46, 0.45, 0.94);
   transform-origin: left;
-  box-shadow: 1px 1px 12px rgba(0, 0, 0, 0.3);
+  box-shadow: 
+    0 15px 35px rgba(0, 0, 0, 0.5),
+    0 5px 15px rgba(0, 0, 0, 0.3);
   display: flex;
   align-items: center;
   justify-content: center;
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  backdrop-filter: blur(10px);
 }
 
 .cover-content {
@@ -368,8 +377,19 @@
 }
 
 .book:hover .cover {
-  transition: all 0.5s ease-in-out;
-  transform: rotateY(-80deg);
+  transition: all 0.7s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  transform: rotateY(-85deg);
+  box-shadow: 
+    0 25px 50px rgba(0, 0, 0, 0.6),
+    0 10px 20px rgba(0, 0, 0, 0.4);
+}
+
+/* Add glow effect on hover */
+.book:hover {
+  box-shadow: 
+    0 10px 30px rgba(0, 0, 0, 0.4),
+    0 5px 15px rgba(0, 0, 0, 0.2),
+    0 0 20px rgba(255, 87, 34, 0.3);
 }
 
 /* Animated Project Cards */

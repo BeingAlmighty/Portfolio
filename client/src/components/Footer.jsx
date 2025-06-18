@@ -1,15 +1,8 @@
 import { motion } from 'framer-motion';
-import { Facebook, Twitter, Instagram, Linkedin, Mail, Phone, MapPin } from 'lucide-react';
+import { Mail, Phone } from 'lucide-react';
 
 export default function Footer() {
   const currentYear = new Date().getFullYear();
-
-  const socialLinks = [
-    { icon: <Facebook className="w-5 h-5" />, href: "#", label: "Facebook" },
-    { icon: <Twitter className="w-5 h-5" />, href: "#", label: "Twitter" },
-    { icon: <Instagram className="w-5 h-5" />, href: "#", label: "Instagram" },
-    { icon: <Linkedin className="w-5 h-5" />, href: "#", label: "LinkedIn" }
-  ];
 
   const quickLinks = [
     { label: "Home", href: "#home" },
@@ -20,9 +13,9 @@ export default function Footer() {
 
   const services = [
     "Web Development",
-    "Workflow Automation", 
-    "Digital Marketing",
-    "AI Agents"
+    "AI Agents", 
+    "Data Dashboards",
+    "Workflow Automation"
   ];
 
   const scrollToSection = (sectionId) => {
@@ -36,34 +29,19 @@ export default function Footer() {
     <footer className="bg-black text-white">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-          {/* Company Info */}
-          <motion.div
+          {/* Company Info */}          <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.6 }}
           >
             <h3 className="text-2xl font-bold mb-4">
-              Solvi<span className="text-[#ff5722]">xx</span>
+              Solve<span className="text-[#ff5722]">xx</span>
             </h3>
             <p className="text-gray-300 mb-6 leading-relaxed">
-              We are a passionate team of digital innovators dedicated to creating 
-              exceptional web experiences that drive growth and success.
+              AI-Powered Digital Innovation Agency. We transform businesses through 
+              intelligent web solutions, automated workflows, and data-driven insights.
             </p>
-            <div className="flex space-x-4">
-              {socialLinks.map((social, index) => (
-                <motion.a
-                  key={index}
-                  href={social.href}
-                  className="p-2 bg-gray-800 rounded-full text-gray-300 hover:text-white hover:bg-[#ff5722] transition-colors"
-                  whileHover={{ scale: 1.1 }}
-                  whileTap={{ scale: 0.9 }}
-                  aria-label={social.label}
-                >
-                  {social.icon}
-                </motion.a>
-              ))}
-            </div>
           </motion.div>
 
           {/* Quick Links */}
@@ -112,22 +90,26 @@ export default function Footer() {
             viewport={{ once: true }}
             transition={{ duration: 0.6, delay: 0.3 }}
           >
-            <h4 className="text-lg font-semibold mb-4">Contact Info</h4>
-            <div className="space-y-3">
+            <h4 className="text-lg font-semibold mb-4">Contact Info</h4>            <div className="space-y-3">
               <div className="flex items-center">
                 <Mail className="w-5 h-5 text-[#ff5722] mr-3 flex-shrink-0" />
-                <span className="text-gray-300">hello@solvixx.com</span>
+                <a 
+                  href="mailto:hellosolvexx@gmail.com"
+                  className="text-gray-300 hover:text-[#ff5722] transition-colors"
+                >
+                  hellosolvexx@gmail.com
+                </a>
               </div>
               <div className="flex items-center">
                 <Phone className="w-5 h-5 text-[#ff5722] mr-3 flex-shrink-0" />
-                <span className="text-gray-300">+1 (555) 123-4567</span>
-              </div>
-              <div className="flex items-start">
-                <MapPin className="w-5 h-5 text-[#ff5722] mr-3 flex-shrink-0 mt-0.5" />
-                <span className="text-gray-300">
-                  123 Innovation Street<br />
-                  Tech City, TC 12345
-                </span>
+                <a 
+                  href="https://wa.me/919650419638"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-gray-300 hover:text-[#ff5722] transition-colors"
+                >
+                  +91 9650419638 (WhatsApp)
+                </a>
               </div>
             </div>
           </motion.div>
@@ -141,7 +123,7 @@ export default function Footer() {
           transition={{ duration: 0.6, delay: 0.4 }}
           className="border-t border-gray-800 mt-12 pt-8 text-center text-gray-400"
         >
-          <p>&copy; {currentYear} Solvixx. All rights reserved.</p>
+          <p>&copy; {currentYear} Solvexx. All rights reserved.</p>
         </motion.div>
       </div>
     </footer>

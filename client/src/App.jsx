@@ -10,7 +10,6 @@ import Services from "./components/Services";
 import Projects from "./components/Projects";
 import ContactSection from "./components/ContactSection";
 import Footer from "./components/Footer";
-import FloatingChatBot from "./components/FloatingChatBot";
 
 function App() {
   useEffect(() => {
@@ -30,25 +29,16 @@ function App() {
 
   return (
     <QueryClientProvider client={queryClient}>
-      <TooltipProvider>
-        <div className="bg-black text-white overflow-x-hidden relative">
-          <ReactLenis
-            root
-            options={{
-              lerp: 0.05,
-              duration: 1.2,
-              smoothWheel: true,
-            }}
-          >
+      <TooltipProvider>        <ReactLenis root>
+          <main className="relative">
             <Navbar />
             <Hero />
             <Services />
             <Projects />
             <ContactSection />
             <Footer />
-          </ReactLenis>
-        </div>
-        <FloatingChatBot />
+          </main>
+        </ReactLenis>
         <Toaster />
       </TooltipProvider>
     </QueryClientProvider>

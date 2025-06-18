@@ -34,11 +34,28 @@ const SimpleHero = () => {
           transition={{ duration: 1, delay: 0.5 }}
         >
           <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-bold mb-4 sm:mb-6 leading-tight">
-            Digital <span className="text-[#ff5722]">Innovation</span>
+            <span className="text-[#ff5722]">Solvexx</span>
           </h1>
-          <p className="text-base sm:text-lg md:text-xl lg:text-2xl mb-6 sm:mb-8 max-w-2xl mx-auto leading-relaxed px-4">
-            We craft stunning digital experiences that drive growth and inspire action
+          <h2 className="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-semibold mb-4 sm:mb-6 leading-tight text-gray-100">
+            AI-Powered Digital Agency
+          </h2>
+          <p className="text-base sm:text-lg md:text-xl lg:text-2xl mb-6 sm:mb-8 max-w-4xl mx-auto leading-relaxed px-4">
+            We create intelligent websites, automate workflows with AI agents, integrate cutting-edge AI solutions, and build powerful data analysis dashboards that transform your business operations
           </p>
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 sm:gap-6 max-w-4xl mx-auto mb-6 sm:mb-8 px-4">
+            <div className="text-center p-4 rounded-lg bg-white/5 backdrop-blur-sm border border-white/10">
+              <h3 className="text-sm sm:text-base font-semibold text-[#ff5722] mb-2">AI Agent Development</h3>
+              <p className="text-xs sm:text-sm text-gray-300">Custom AI agents that automate complex workflows and decision-making processes</p>
+            </div>
+            <div className="text-center p-4 rounded-lg bg-white/5 backdrop-blur-sm border border-white/10">
+              <h3 className="text-sm sm:text-base font-semibold text-[#ff5722] mb-2">AI Integration</h3>
+              <p className="text-xs sm:text-sm text-gray-300">Seamlessly integrate ChatGPT, GPT-4, and other AI models into your applications</p>
+            </div>
+            <div className="text-center p-4 rounded-lg bg-white/5 backdrop-blur-sm border border-white/10">
+              <h3 className="text-sm sm:text-base font-semibold text-[#ff5722] mb-2">Data Dashboards</h3>
+              <p className="text-xs sm:text-sm text-gray-300">Interactive analytics dashboards with real-time insights and AI-powered predictions</p>
+            </div>
+          </div>
           <button 
             onClick={() => {
               document.getElementById("services")?.scrollIntoView({
@@ -97,13 +114,7 @@ const ParallaxImages = () => {
   );
 };
 
-const ParallaxImg = ({ className, alt, src, start, end }: {
-  className: string;
-  alt: string;
-  src: string;
-  start: number;
-  end: number;
-}) => {
+const ParallaxImg = ({ className, alt, src, start, end }) => {
   const ref = useRef(null);
 
   const { scrollYProgress } = useScroll({

@@ -68,7 +68,7 @@ export default function Navbar() {
     };
   }, [isMobile]);
 
-  const scrollToSection = (sectionId: string) => {
+  const scrollToSection = (sectionId) => {
     const element = document.getElementById(sectionId);
     if (element) {
       const offsetTop = element.offsetTop - (isMobile ? 80 : 100);
@@ -100,8 +100,10 @@ export default function Navbar() {
             <li key={item.id}>
               <button
                 onClick={() => scrollToSection(item.id)}
-                className={`hover:text-[#ff5722] transition-colors duration-200 px-2 py-1 rounded ${
-                  activeSection === item.id ? 'text-[#ff5722]' : 'text-white'
+                className={`px-3 py-1.5 rounded-full transition-colors duration-200 ${
+                  activeSection === item.id
+                    ? 'bg-white/20 text-white'
+                    : 'hover:bg-white/10 text-white/70'
                 }`}
               >
                 {item.label}
@@ -113,42 +115,50 @@ export default function Navbar() {
 
       {/* Mobile Navigation */}
       <nav
-        className={`fixed top-3 left-1/2 transform -translate-x-1/2 px-4 py-2 z-50 rounded-full navbar-glass bg-white/10 border border-white/20 transition-all duration-300 md:hidden ${
-          show ? 'opacity-100' : 'opacity-0 -translate-y-5'
+        className={`fixed top-0 left-0 right-0 z-50 md:hidden transition-transform duration-300 ${
+          show ? 'translate-y-0' : '-translate-y-full'
         }`}
       >
-        <button
-          onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-          className="text-white hover:text-[#ff5722] transition-colors duration-200 p-2"
-          aria-label="Toggle menu"
-        >
-          {isMobileMenuOpen ? <X size={20} /> : <Menu size={20} />}
-        </button>
-      </nav>
-
-      {/* Mobile Menu Overlay */}
-      {isMobileMenuOpen && (
-        <div className="fixed inset-0 z-40 bg-black/50 backdrop-blur-sm md:hidden">
-          <div className="fixed top-16 left-1/2 transform -translate-x-1/2 w-11/12 max-w-sm bg-black/90 backdrop-blur-md rounded-2xl border border-white/20 p-6">
-            <ul className="space-y-4">
-              {navItems.map((item) => (
-                <li key={item.id}>
-                  <button
-                    onClick={() => scrollToSection(item.id)}
-                    className={`block w-full text-left px-4 py-3 rounded-lg hover:bg-white/10 transition-all duration-200 ${
-                      activeSection === item.id 
-                        ? 'text-[#ff5722] bg-[#ff5722]/10' 
-                        : 'text-white hover:text-[#ff5722]'
-                    }`}
-                  >
-                    {item.label}
-                  </button>
-                </li>
-              ))}
-            </ul>
+        <div className="px-4 py-3 bg-black/80 backdrop-blur-lg border-b border-white/10">
+          <div className="flex items-center justify-between">
+            <h1 className="text-white font-bold">Portfolio</h1>
+            <button
+              onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+              className="text-white p-2 hover:bg-white/10 rounded-lg transition-colors"
+            >
+              {isMobileMenuOpen ? (
+                <X className="w-6 h-6" />
+              ) : (
+                <Menu className="w-6 h-6" />
+              )}
+            </button>
           </div>
         </div>
-      )}
+
+        {/* Mobile Menu */}
+        <div
+          className={`bg-black/95 backdrop-blur-lg transition-all duration-300 overflow-hidden ${
+            isMobileMenuOpen ? 'max-h-screen' : 'max-h-0'
+          }`}
+        >
+          <ul className="p-4 flex flex-col gap-2">
+            {navItems.map((item) => (
+              <li key={item.id}>
+                <button
+                  onClick={() => scrollToSection(item.id)}
+                  className={`w-full text-left px-4 py-3 rounded-lg transition-colors ${
+                    activeSection === item.id
+                      ? 'bg-white/20 text-white'
+                      : 'text-white/70 hover:bg-white/10'
+                  }`}
+                >
+                  {item.label}
+                </button>
+              </li>
+            ))}
+          </ul>
+        </div>
+      </nav>
     </>
   );
 }

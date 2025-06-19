@@ -61,36 +61,17 @@ const ContactInfo = () => (
   </div>
 );
 
-interface Message {
-  id: string;
-  text: string;
-  isBot: boolean;
-  options?: string[];
-  inputType?: 'text' | 'email' | 'phone';
-  inputPlaceholder?: string;
-  skipOption?: boolean;
-}
-
-interface UserData {
-  service?: string;
-  goals?: string;
-  budget?: string;
-  brandName?: string;
-  email?: string;
-  phone?: string;
-}
-
 const ChatBot = () => {
-  const [messages, setMessages] = useState<Message[]>([]);
+  const [messages, setMessages] = useState([]);
   const [currentStep, setCurrentStep] = useState("initial");
-  const [userData, setUserData] = useState<UserData>({});
+  const [userData, setUserData] = useState({});
   const [inputValue, setInputValue] = useState("");
   const [isTyping, setIsTyping] = useState(false);
   const [showInitialMessages, setShowInitialMessages] = useState(false);
-  const [hoveredOption, setHoveredOption] = useState<string | null>(null);
+  const [hoveredOption, setHoveredOption] = useState(null);
   const [hasInitialized, setHasInitialized] = useState(false);
-  const messagesEndRef = useRef<HTMLDivElement>(null);
-  const chatContainerRef = useRef<HTMLDivElement>(null);
+  const messagesEndRef = useRef(null);
+  const chatContainerRef = useRef(null);
 
   // Initialize chat only when contact section comes into view
   useEffect(() => {
@@ -162,7 +143,7 @@ const ChatBot = () => {
     }, 5500);
   };
 
-  const validateEmail = (email: string): boolean => {
+  const validateEmail = (email) => {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     return emailRegex.test(email);
   };
@@ -236,7 +217,7 @@ const ChatBot = () => {
     }
   }, [messages]);
 
-  const addBotMessageWithDelay = (botResponse: Message) => {
+  const addBotMessageWithDelay = (botResponse) => {
     setIsTyping(true);
     setTimeout(() => {
       setIsTyping(false);
@@ -244,8 +225,8 @@ const ChatBot = () => {
     }, 1500 + Math.random() * 1000); // 1.5-2.5 seconds delay
   };
 
-  const handleOptionClick = (option: string) => {
-    const userMessage: Message = {
+  const handleOptionClick = (option) => {
+    const userMessage = {
       id: Date.now().toString(),
       text: option,
       isBot: false
@@ -253,7 +234,7 @@ const ChatBot = () => {
 
     setMessages(prev => [...prev, userMessage]);
 
-    let botResponse: Message = {
+    let botResponse = {
       id: (Date.now() + 1).toString(),
       text: "Thanks for chatting! Feel free to contact us anytime.",
       isBot: true
@@ -355,11 +336,11 @@ const ChatBot = () => {
     addBotMessageWithDelay(botResponse);
   };
 
-  const handleInputSubmit = (value: string) => {
+  const handleInputSubmit = (value) => {
     // Email validation - required field
     if (currentStep === "email") {
       if (!value.trim()) {
-        const errorMessage: Message = {
+        const errorMessage = {
           id: Date.now().toString(),
           text: "Email is required. Please enter your email address.",
           isBot: true,
@@ -371,7 +352,7 @@ const ChatBot = () => {
         return;
       }
       if (!validateEmail(value.trim())) {
-        const errorMessage: Message = {
+        const errorMessage = {
           id: Date.now().toString(),
           text: "Please enter a valid email address (e.g., john@gmail.com)",
           isBot: true,
@@ -387,7 +368,7 @@ const ChatBot = () => {
     // Check if required field is empty (except for optional phone)
     if (!value.trim() && !messages[messages.length - 1]?.skipOption) return;
 
-    const userMessage: Message = {
+    const userMessage = {
       id: Date.now().toString(),
       text: value.trim() || "Skipped",
       isBot: false
@@ -395,7 +376,7 @@ const ChatBot = () => {
 
     setMessages(prev => [...prev, userMessage]);
 
-    let botResponse: Message = {
+    let botResponse = {
       id: (Date.now() + 1).toString(),
       text: "Thanks for chatting! Feel free to contact us anytime.",
       isBot: true
@@ -629,7 +610,7 @@ Is this information correct?`;
             stiffness: 120
           }}
         >
-          {messages[messages.length - 1].options!.map((option, index) => (
+          {messages[messages.length - 1].options.map((option, index) => (
             <motion.button
               key={index}
               onClick={() => handleOptionClick(option)}
